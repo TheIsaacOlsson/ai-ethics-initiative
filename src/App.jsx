@@ -26,7 +26,13 @@ function App() {
   }, [])
 
   return (
-    <BrowserRouter>
+    // basename matches vite.config.js's `base` — on GitHub Pages the app
+    // is served from /ai-ethics-initiative/, not the domain root, so
+    // React Router needs to know to strip that prefix before matching
+    // routes below (import.meta.env.BASE_URL is Vite's own copy of that
+    // same `base` value, kept in sync automatically). Locally in dev,
+    // BASE_URL is just "/", so this is a no-op there.
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />

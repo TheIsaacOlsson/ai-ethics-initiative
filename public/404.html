@@ -8,20 +8,20 @@
       any URL that isn't a real static file — e.g. a direct load or
       refresh of /kickstart or /principles. Since those are client-side
       React Router routes, not real files, we redirect back to the real
-      index.html with the intended path packed into the query string,
-      and a matching script in index.html's <head> unpacks it and
-      restores the real URL (via history.replaceState) before React
-      Router ever mounts. Standard "spa-github-pages" trick — see
-      https://github.com/rafgraph/spa-github-pages.
+      index.html with the intended path packed into the query string as
+      ?/kickstart, and a matching script in index.html's <head> unpacks
+      it and restores the real URL (via history.replaceState) before
+      React Router ever mounts. This is the standard "spa-github-pages"
+      trick, used as-is — see https://github.com/rafgraph/spa-github-pages.
     -->
     <script>
-      var segmentCount = 1 // matches the repo name segment in the path below
+      var pathSegmentsToKeep = 1 // matches the repo name segment below
       var l = window.location
       l.replace(
         l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?p=/' +
-        l.pathname.slice(1).split('/').slice(segmentCount).join('/').replace(/&/g, '~and~') +
-        (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
         l.hash
       )
     </script>

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import ExploreNav from '../components/ExploreNav.jsx'
 import CinemaWords from '../components/cinema/CinemaWords.jsx'
 import useInView from '../hooks/useInView.js'
@@ -302,6 +303,43 @@ export default function Home() {
             </a>{' '}
             — harnessing it ethically for people, communities, and the world.
           </p>
+        </div>
+      </section>
+
+      <section className="section" data-screen-label="Highlights">
+        <div className="wrap">
+          <div className="grid cols-2 reveal-stagger">
+            <Link className="card" to="/principles" data-reveal style={{ display: 'grid', gridTemplateColumns: '1fr' }}>
+              <div className="card__body" style={{ padding: 32 }}>
+                <p className="kicker">Start here</p>
+                <h3 className="card__title" style={{ fontSize: 26 }}>
+                  The Principles of Ethical AI Use
+                </h3>
+                <p className="card__excerpt" style={{ fontSize: 16 }}>
+                  Tag-line for the principles
+                </p>
+                <span className="link-more" style={{ marginTop: 18 }}>
+                  <span className="uline">Read the Principles</span>
+                  <span className="arrow">&rarr;</span>
+                </span>
+              </div>
+            </Link>
+            <Link className="card" to="/news#newsletter" data-reveal style={{ display: 'grid', gridTemplateColumns: '1fr' }}>
+              <div className="card__body" style={{ padding: 32 }}>
+                <p className="kicker">Stay in the loop</p>
+                <h3 className="card__title" style={{ fontSize: 26 }}>
+                  The AI Ethics Newsletter
+                </h3>
+                <p className="card__excerpt" style={{ fontSize: 16 }}>
+                  Tag-line for the principles
+                </p>
+                <span className="link-more" style={{ marginTop: 18 }}>
+                  <span className="uline">Subscribe now</span>
+                  <span className="arrow">&rarr;</span>
+                </span>
+              </div>
+            </Link>
+          </div>
         </div>
       </section>
 

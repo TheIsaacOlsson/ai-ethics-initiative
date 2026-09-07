@@ -11,7 +11,7 @@ export default function EventDetail() {
       <header className="phead">
         <div className="wrap">
           <nav className="crumbs">
-            <Link to="/">Home</Link> <span>/</span> <Link to="/events">Events</Link> <span>/</span>{' '}
+            <Link to="/">Home</Link> <span>/</span> <Link to="/get-involved">Events</Link> <span>/</span>{' '}
             <span>{ev.title}</span>
           </nav>
           <p className="kicker">{ev.type}</p>
@@ -23,7 +23,7 @@ export default function EventDetail() {
       <section className="section">
         <div className="wrap ev-layout">
           <div className="ev-detail" data-reveal>
-            <Link className="back-link" to="/events">
+            <Link className="back-link" to="/get-involved">
               <span className="arr">&larr;</span> All events
             </Link>
             <h2 className="ev-detail__h">About this event</h2>

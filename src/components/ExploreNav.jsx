@@ -4,16 +4,16 @@ import '../explore-nav.css'
 
 const EXPLORE_ITEMS = [
   {
+    to: '/get-involved',
+    label: 'Events',
+    sub: 'Upcoming events & how to get involved',
+    ph: 'photo · calendar',
+  },
+  {
     to: '/principles',
     label: 'Principles',
     sub: 'Build your personal constitution',
     ph: 'photo · principles',
-  },
-  {
-    to: '/events',
-    label: 'Events',
-    sub: 'Logo contest & case competition',
-    ph: 'photo · events',
   },
   {
     to: '/kickstart',

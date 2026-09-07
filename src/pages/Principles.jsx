@@ -237,9 +237,9 @@ export default function Principles() {
             <p className="mission__statement" style={{ fontSize: 'clamp(22px,3vw,32px)', margin: 0, maxWidth: '30ch' }}>
               Have a case these principles don&rsquo;t quite cover?
             </p>
-            <Link className="btn btn--accent" to="/about#contact">
+            <a className="btn btn--accent" href="mailto:ai-ethics@byu.edu">
               Talk it through with us<span className="arrow">&rarr;</span>
-            </Link>
+            </a>
           </div>
         </div>
       </section>

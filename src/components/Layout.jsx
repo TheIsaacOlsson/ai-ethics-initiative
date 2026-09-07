@@ -6,12 +6,10 @@ import '../reveal.css'
 
 const NAV = [
   { to: '/', label: 'Home' },
-  { to: '/get-involved', label: 'Get Involved' },
-  { to: '/about', label: 'About' },
+  { to: '/get-involved', label: 'Calendar' },
+  { to: '/kickstart', label: 'Kickstart' },
   { to: '/principles', label: 'Principles' },
-  { to: '/events', label: 'Events' },
   { to: '/news', label: 'News' },
-  { to: '/connections', label: 'Connections' },
 ]
 
 function MailIcon() {
@@ -28,19 +26,6 @@ function NewsIcon() {
       <rect x="3" y="4" width="14" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" />
       <path d="M17 8h4v9a3 3 0 0 1-3 3" fill="none" stroke="currentColor" strokeWidth="1.6" />
       <path d="M6 8h8M6 12h8M6 16h5" stroke="currentColor" strokeWidth="1.6" />
-    </svg>
-  )
-}
-function LinkIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M9 15l6-6" stroke="currentColor" strokeWidth="1.8" />
-      <path
-        d="M8 11l-2 2a3 3 0 0 0 4 4l2-2M16 13l2-2a3 3 0 0 0-4-4l-2 2"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-      />
     </svg>
   )
 }
@@ -81,8 +66,11 @@ export default function Layout() {
 
       // The header is a translucent glass strip now — tint and text color
       // adapt to whether a dark hero (painting / navy band) or the plain
-      // cream page is still showing through underneath it.
-      const darkEl = document.querySelector('.phead, .mission--hero, .gi-pin-wrap')
+      // cream page is still showing through underneath it. .phead--paper
+      // is explicitly excluded — it's the cream/dark-ink variant of
+      // .phead, not a dark band, so the nav needs its light-background
+      // (dark text) treatment over it, same as the plain cream page.
+      const darkEl = document.querySelector('.phead:not(.phead--paper), .mission--hero')
       setOnDark(darkEl ? darkEl.getBoundingClientRect().bottom > NAV_HEIGHT : false)
     }
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -141,13 +129,13 @@ export default function Layout() {
               <h4 className="foot__h">Explore</h4>
               <ul>
                 <li>
-                  <Link to="/about">About the Initiative</Link>
+                  <Link to="/kickstart">Kickstart Course</Link>
                 </li>
                 <li>
                   <Link to="/principles">Principles of Ethical AI Use</Link>
                 </li>
                 <li>
-                  <Link to="/events">Events Calendar</Link>
+                  <Link to="/get-involved">Events Calendar</Link>
                 </li>
                 <li>
                   <Link to="/news">News &amp; Newsletter</Link>
@@ -164,10 +152,7 @@ export default function Layout() {
                   <Link to="/principles#disclosure">Disclosure &amp; Citation</Link>
                 </li>
                 <li>
-                  <Link to="/connections">Campus Partners</Link>
-                </li>
-                <li>
-                  <Link to="/about#contact">Request a Workshop</Link>
+                  <a href="mailto:ai-ethics@byu.edu">Request a Workshop</a>
                 </li>
               </ul>
             </div>
@@ -180,10 +165,7 @@ export default function Layout() {
                 <Link to="/news" aria-label="News">
                   <NewsIcon />
                 </Link>
-                <Link to="/connections" aria-label="Partners">
-                  <LinkIcon />
-                </Link>
-                <Link to="/events" aria-label="Recordings">
+                <Link to="/get-involved" aria-label="Recordings">
                   <PlayIcon />
                 </Link>
               </div>
@@ -192,10 +174,7 @@ export default function Layout() {
                   <Link to="/news#newsletter">Join the mailing list</Link>
                 </li>
                 <li>
-                  <Link to="/events">Upcoming events</Link>
-                </li>
-                <li>
-                  <Link to="/about#team">Meet the team</Link>
+                  <Link to="/get-involved">Upcoming events</Link>
                 </li>
               </ul>
             </div>

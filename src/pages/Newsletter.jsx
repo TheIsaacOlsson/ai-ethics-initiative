@@ -89,9 +89,9 @@ export default function Newsletter() {
             <div className="aside-card">
               <h3>Got a tip?</h3>
               <p>Reading coverage we should feature next week? Send it our way.</p>
-              <Link className="link-more" to="/about#contact">
+              <a className="link-more" href="mailto:ai-ethics@byu.edu">
                 Suggest a source<span className="arrow">&rarr;</span>
-              </Link>
+              </a>
             </div>
           </aside>
         </div>

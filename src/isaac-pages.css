@@ -119,9 +119,6 @@
   font-size: clamp(26px, 4vw, 46px); line-height: 1.18; letter-spacing: -0.01em;
   margin: 22px 0 0; text-wrap: balance;
 }
-.mission__statement em { font-style: italic; color: oklch(0.78 0.1 70); }
-:root[data-type="grotesque"] .mission__statement em,
-:root[data-type="classic"] .mission__statement em { font-style: normal; color: oklch(0.8 0.1 70); }
 .mission__actions { margin-top: 36px; display: flex; gap: 14px; flex-wrap: wrap; }
 .mission .btn--ghost { color: #fff; border-color: rgba(255,255,255,0.4); }
 .mission .btn--ghost:hover { background: rgba(255,255,255,0.08); border-color: #fff; }
@@ -297,7 +294,7 @@
 .nl-form input::placeholder { color: rgba(255,255,255,0.55); }
 .nl-form input:focus { outline: none; border-color: #fff; background: rgba(255,255,255,0.14); }
 .nl-note { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 14px; }
-.nl-ok { margin-top: 16px; font-weight: 600; color: oklch(0.85 0.12 150); }
+.nl-ok { margin-top: 16px; font-weight: 600; color: #10A170; }
 @media (max-width: 740px) { .newsletter__grid { grid-template-columns: 1fr; } }
 
 /* =========================================================================
@@ -439,7 +436,6 @@
 /* ---------- Full newsletter (dedicated page) ----------------------------- */
 .nl-read { max-width: 760px; margin: 0 auto; }
 .nl-lead { font-family: var(--font-display); font-size: clamp(20px, 2.6vw, 25px); line-height: 1.5; color: var(--ink); margin: 0 0 8px; text-wrap: pretty; }
-:root[data-type="grotesque"] .nl-lead, :root[data-type="classic"] .nl-lead { font-family: var(--font-body); font-weight: 500; }
 .nl-section-h { font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 800; color: var(--accent-ink); margin: 46px 0 6px; padding-bottom: 14px; border-bottom: 2px solid var(--line-2); }
 .nl-picks { list-style: none; margin: 0; padding: 0; counter-reset: pick; }
 .nl-pick { display: grid; grid-template-columns: 46px 1fr; gap: 22px; padding: 30px 0; border-bottom: 1px solid var(--line); }

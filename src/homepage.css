@@ -1,0 +1,316 @@
+/* =========================================================================
+   Homepage — sections 2 through 8 (everything after the cinematic opening
+   in cinema-sequence.css). Editorial/manifesto treatment: large serif
+   headlines (--font-display, now Newsreader), small tracked sans labels
+   (.kicker, from isaac-site.css), thin hairline rules instead of cards,
+   and generous vertical rhythm. Section 3 (Principles) is the visual
+   centerpiece of the page — everything else is deliberately quieter.
+   ========================================================================= */
+
+/* ---- Section 2: The Pivot ---------------------------------------------- */
+.pivot {
+  padding-block: clamp(96px, 16vw, 200px);
+  text-align: center;
+}
+
+.pivot__headline {
+  font-size: clamp(34px, 6.4vw, 76px);
+  font-weight: 500;
+  line-height: 1.12;
+  max-width: 18ch;
+  margin: 18px auto 0;
+}
+
+.pivot__body {
+  color: var(--muted);
+  font-size: clamp(17px, 1.9vw, 20px);
+  line-height: 1.6;
+  max-width: 52ch;
+  margin: 28px auto 0;
+}
+
+.pivot__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 40px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+.pivot__cta:hover { text-decoration: none; }
+.pivot__cta span { display: inline-block; transition: transform 0.2s ease; }
+.pivot__cta:hover span { transform: translateY(3px); }
+
+/* ---- Section 3: Principles (centerpiece) ------------------------------- */
+.principles-framework {
+  padding-block: clamp(64px, 10vw, 120px) clamp(96px, 14vw, 180px);
+  scroll-margin-top: 90px;
+}
+
+.principles-framework__head {
+  text-align: center;
+  max-width: 46ch;
+  margin: 0 auto clamp(56px, 8vw, 96px);
+}
+
+.principles-framework__lead {
+  font-size: clamp(30px, 4.6vw, 48px);
+  font-weight: 500;
+  line-height: 1.2;
+  margin-top: 16px;
+}
+
+.principles-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.principles-list__row {
+  border-bottom: 1px solid var(--line);
+}
+
+.principles-list__item {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  align-items: baseline;
+  gap: clamp(16px, 3vw, 40px);
+  padding: clamp(22px, 3.4vw, 34px) 4px;
+  color: var(--ink);
+  transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+}
+.principles-list__item:hover,
+.principles-list__item:focus-visible {
+  text-decoration: none;
+  padding-left: 16px;
+  background: var(--accent-wash);
+}
+
+.principles-list__num {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(18px, 2vw, 22px);
+  color: var(--faint);
+  transition: color 0.3s ease;
+}
+.principles-list__item:hover .principles-list__num,
+.principles-list__item:focus-visible .principles-list__num {
+  color: var(--accent);
+}
+
+.principles-list__body { min-width: 0; }
+
+.principles-list__title {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(30px, 5vw, 52px);
+  line-height: 1.1;
+}
+
+.principles-list__tag {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.36s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--muted);
+  font-size: 15px;
+}
+.principles-list__tag > span {
+  display: block;
+  overflow: hidden;
+  padding-top: 0;
+}
+.principles-list__item:hover .principles-list__tag,
+.principles-list__item:focus-visible .principles-list__tag {
+  grid-template-rows: 1fr;
+}
+.principles-list__item:hover .principles-list__tag > span,
+.principles-list__item:focus-visible .principles-list__tag > span {
+  padding-top: 8px;
+}
+
+.principles-list__arrow {
+  font-size: 22px;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.principles-list__item:hover .principles-list__arrow,
+.principles-list__item:focus-visible .principles-list__arrow {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 640px) {
+  .principles-list__item {
+    grid-template-columns: 40px 1fr;
+    grid-template-areas: 'num arrow' 'body body';
+  }
+  .principles-list__arrow { display: none; }
+}
+
+/* ---- Section 4: Mission ------------------------------------------------- */
+.mission-band {
+  background: var(--navy);
+  color: #fff;
+  padding-block: clamp(80px, 12vw, 160px);
+  text-align: center;
+}
+.mission-band .kicker { color: rgba(255, 255, 255, 0.65); }
+.mission-band__headline {
+  font-size: clamp(30px, 4.6vw, 50px);
+  font-weight: 500;
+  line-height: 1.2;
+  max-width: 20ch;
+  margin: 18px auto 0;
+  color: #fff;
+}
+.mission-band__statement {
+  font-size: clamp(18px, 2vw, 21px);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 56ch;
+  margin: 32px auto 0;
+}
+.mission-band__statement a {
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.45);
+  text-underline-offset: 3px;
+}
+.mission-band__statement a:hover { text-decoration-color: #fff; }
+
+/* ---- Section 5: Put the Principles into practice ------------------------ */
+.practice { padding-block: clamp(80px, 12vw, 160px); }
+.practice__head { max-width: 56ch; margin-bottom: clamp(48px, 6vw, 72px); }
+.practice__head h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 500; margin-top: 12px; }
+
+.practice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+
+.practice-block {
+  padding: clamp(28px, 3vw, 40px) clamp(20px, 3vw, 36px);
+  border-left: 1px solid var(--line);
+}
+.practice-block:first-child { border-left: 0; }
+
+.practice-block__eyebrow {
+  font-weight: 700;
+  font-size: 12.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  margin: 0 0 16px;
+}
+.practice-block h3 {
+  font-size: clamp(21px, 2.4vw, 26px);
+  font-weight: 500;
+  margin: 0 0 12px;
+}
+.practice-block p {
+  color: var(--muted);
+  font-size: 15.5px;
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+@media (max-width: 780px) {
+  .practice-grid { grid-template-columns: 1fr; border-top: 0; }
+  .practice-block {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding-inline: 0;
+  }
+  .practice-block:first-child { border-top: 0; }
+}
+
+/* ---- Section 6: Reflective break ----------------------------------------- */
+.reflect {
+  background: var(--navy);
+  color: #fff;
+  padding-block: clamp(100px, 16vw, 200px);
+  text-align: center;
+}
+.reflect__line {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3.6vw, 38px);
+  font-weight: 400;
+  line-height: 1.4;
+  max-width: 26ch;
+  margin: 0 auto;
+  color: rgba(255, 255, 255, 0.92);
+}
+.reflect__line + .reflect__line { margin-top: 22px; }
+.reflect__line--pause { font-style: italic; color: #fff; }
+.reflect__line--answer {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 40px;
+}
+
+/* ---- Section 7: From the Initiative -------------------------------------- */
+.activity { padding-block: clamp(72px, 10vw, 140px); }
+.activity__head { margin-bottom: clamp(40px, 5vw, 56px); }
+.activity__head h2 { font-size: clamp(26px, 3.6vw, 36px); font-weight: 500; margin-top: 12px; }
+
+.activity-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 64px);
+}
+
+.activity-item { border-top: 2px solid var(--line-2); padding-top: 20px; }
+.activity-item__eyebrow {
+  display: block;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  margin-bottom: 10px;
+}
+.activity-item h3 {
+  font-size: clamp(19px, 2.2vw, 23px);
+  font-weight: 500;
+  margin: 0 0 8px;
+}
+.activity-item h3 a { color: var(--ink); }
+.activity-item p { color: var(--muted); font-size: 15px; line-height: 1.55; margin: 0; }
+
+@media (max-width: 700px) {
+  .activity-grid { grid-template-columns: 1fr; }
+}
+
+/* ---- Section 8: Final CTA -------------------------------------------------- */
+.final-cta {
+  background: var(--navy);
+  color: #fff;
+  padding-block: clamp(96px, 14vw, 180px);
+  text-align: center;
+}
+.final-cta__statement {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(28px, 4.4vw, 46px);
+  line-height: 1.28;
+  max-width: 24ch;
+  margin: 0 auto;
+  color: #fff;
+}
+.final-cta__btn { margin-top: 40px; }
+.final-cta__secondary { margin-top: 28px; }
+.final-cta__secondary .link-more { color: rgba(255, 255, 255, 0.82); }
+.final-cta__secondary .link-more:hover { color: #fff; }

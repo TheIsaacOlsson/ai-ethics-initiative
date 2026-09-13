@@ -28,10 +28,9 @@
   --accent-ink: #0047BA;
   --accent-wash: rgba(0, 71, 186, 0.08);
 
-  --font-display: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
   --font-body:    'IBM Plex Sans', system-ui, sans-serif;
   --display-weight: 600;
-  --display-italic-ok: 1;
 
   --maxw: 1240px;
   --gutter: clamp(20px, 5vw, 64px);
@@ -209,7 +208,7 @@ p { text-wrap: pretty; }
   position: fixed; top: 0; left: 0; right: 0; z-index: 40;
   /* Fully see-through — no tint of its own. It floats directly over the
      page (which now bleeds all the way to the real top of the viewport,
-     see .phead / .mission--hero / .gi-pin-wrap below) and over .nav-fade,
+     see .phead / .home-open / .gi-pin-wrap below) and over .nav-fade,
      which does the work of dissolving whatever scrolls underneath.
      Legibility comes from adaptive text color + shadow via data-over. */
   background: transparent;
@@ -262,8 +261,6 @@ p { text-wrap: pretty; }
 .scroll-logo__swap { position: relative; display: inline-block; margin-right: 8px; }
 .scroll-logo__and { display: inline-block; }
 .scroll-logo__amp { display: inline-block; position: absolute; left: 0; top: 0; }
-:root[data-type="grotesque"] .scroll-logo,
-:root[data-type="classic"] .scroll-logo { font-style: normal; }
 
 .nav__links { display: flex; align-items: center; gap: 6px; }
 .nav__links a {
@@ -306,6 +303,14 @@ p { text-wrap: pretty; }
     display: flex; flex-direction: column; align-items: stretch; gap: 2px;
     position: absolute; left: 0; right: 0; top: 100%;
     background: #fff; border-bottom: 1px solid var(--line); padding: 12px var(--gutter) 20px;
+  }
+  /* The open dropdown is always an opaque white panel, regardless of
+     whether the page behind the header is currently dark — its links need
+     dark text even when data-over="dark" is still set for the (now
+     hidden) collapsed header state. */
+  .nav[data-open="true"] .nav__links a:not([aria-current="page"]) {
+    color: var(--ink);
+    text-shadow: none;
   }
   .nav[data-open="true"] .nav__cta { display: inline-flex; margin: 8px var(--gutter) 0; }
   .util__brand { display: none; }

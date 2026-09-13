@@ -1,49 +1,25 @@
 /* =========================================================================
-   Cinematic scroll sequence — doom/hope statements → "you" → mission
-   statement. Sits right after "Welcome" on the homepage. Navy + white,
-   per BYU's brand guidelines (brand.byu.edu/web-theme) — the highlight
-   accent below is BYU Royal, not the old museum-green. Typography stays
-   on the site's IBM Plex Sans (--font-display / --font-body) — this
-   section doesn't introduce a second display font.
+   Cinematic opening — four short pinned statements building toward an
+   isolated "YOU DO.", then a soft gradient hands off into the white page
+   below. Tightened from an earlier, much longer version of this sequence:
+   fewer beats, shorter pins (130vh instead of 200+), no background-color
+   crossfades to compute — this is meant to move fast, not linger.
 
-   Each beat is a tall "pin": position: sticky holds its text centered on
-   screen while the user keeps scrolling — same mechanic as the "you" hold
-   below, generalized to all the text beats. The background color for each
-   beat lives on the pin itself (a full-width block), not on the narrower
-   centered content inside it, so the color genuinely fills the whole page
-   rather than just a column down the middle.
+   .home-open is a single-purpose marker (no styling of its own attached
+   elsewhere) that Layout.jsx's nav watches to decide when to render nav
+   text light-on-dark; it should wrap exactly the navy portion of the
+   opening, not the white finale below it.
    ========================================================================= */
 
-.cinema-sequence {
-  background: var(--paper);
-  color: var(--ink);
+.home-open {
+  background: var(--navy);
+  color: #fff;
   position: relative;
 }
-
-/* ---- Shared pin/sticky/stage scaffolding ---------------------------- */
 
 .cinema-pin {
   position: relative;
-  z-index: 3;
-  height: 200vh;
-}
-
-/* No background of its own — it reuses .mission--hero's navy panel (see
-   the combined class in Home.jsx) and fades in via .mission__fade-overlay
-   instead, so it visually continues straight out of "Welcome" rather than
-   cutting at the pin boundary. */
-
-/* Base color is the PREVIOUS beat's color, not this one's — each pin's own
-   nested .cinema-bridge overlay (see Home.jsx) is what fades it forward to
-   its actual color as you scroll in, so the transition between beats is a
-   real crossfade rather than a hard cut right at the pin boundary. Doom's
-   previous beat (Beat 1) already ends at navy, so this is navy too. */
-.cinema-pin--doom {
-  background: var(--navy);
-}
-
-.cinema-pin--hope {
-  background: var(--navy);
+  height: 130vh;
 }
 
 .cinema-sticky {
@@ -54,22 +30,11 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  /* Explicit z-index, not just "comes first in DOM order" — .cinema-bridge
-     has a positive z-index (1/2) for its own stacking between bridges, and
-     a positioned descendant with z-index:auto (this, without this rule)
-     paints BELOW positioned siblings with an explicit positive z-index
-     regardless of DOM order. Without this, the bridge (pointer-events:none,
-     so invisible to elementFromPoint hit-testing) was visually painting on
-     top of the text as its opacity climbed — dimming it — even though it
-     sits earlier in the markup. */
-  z-index: 4;
 }
 
 .cinema-stage {
   position: relative;
-  width: min(94vw, 1200px);
-  max-width: 1200px;
-  height: min(78vh, 720px);
+  width: min(94vw, 1100px);
   padding: 0 24px;
   display: flex;
   align-items: center;
@@ -78,46 +43,13 @@
 
 .cinema-statement {
   font-family: var(--font-display);
-  font-weight: var(--display-weight);
-  font-size: clamp(28px, 4.4vw, 52px);
-  line-height: 1.28;
+  font-weight: 500;
+  font-size: clamp(30px, 5.2vw, 60px);
+  line-height: 1.22;
   margin: 0 auto;
-  max-width: 760px;
+  max-width: 15ch;
   text-align: center;
-  position: relative;
-  z-index: 1;
-}
-
-.cinema-pin--1 .cinema-statement {
-  color: #FFFFFF;
-  text-shadow: 0 1px 8px rgba(0, 46, 93, 0.35);
-}
-
-.cinema-pin--doom .cinema-statement {
   color: #fff;
-}
-
-/* Doom's line sits on the left, hope's on the right — everything else in
-   the sequence (beat 1, the "you" hold, the mission landing) stays
-   centered. Overriding .cinema-stage's own justify-content moves the
-   whole text block to that side of the screen, not just the text within
-   its own (still-centered) box. */
-.cinema-pin--doom .cinema-stage {
-  justify-content: flex-start;
-}
-
-.cinema-pin--doom .cinema-statement {
-  margin: 0;
-  text-align: left;
-}
-
-.cinema-pin--hope .cinema-stage {
-  justify-content: flex-end;
-}
-
-.cinema-pin--hope .cinema-statement {
-  margin: 0;
-  text-align: right;
 }
 
 .cinema-word {
@@ -132,157 +64,50 @@
   transform: translateY(0);
 }
 
-.cinema-highlight {
-  color: var(--accent);
-}
-
-/* ---- Bridges between one beat's background color and the next's ---- */
-
-/* Same technique as .mission__fade-overlay in mission-home.css (position:
-   fixed + scroll-computed opacity, not a sticky/grid layer): each one fades
-   in on top of whatever's currently showing, so by the time a beat's own
-   solid background (above) takes over there's no seam. Stacked by z-index
-   — bridge 2 covers bridge 1's brown, bridge 3 covers bridge 2's black.
-   No CSS transition on purpose — opacity tracks scrollY directly (see
-   Home.jsx) for a true scroll-scrubbed fade; a timed transition would lag
-   behind the actual scroll position instead of moving with it. */
-.cinema-bridge {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-}
-
-.cinema-bridge--to-black {
-  background: var(--navy);
-  z-index: 1;
-}
-
-.cinema-bridge--to-cream {
+/* ---- Finale: "YOU DO." ------------------------------------------------
+   Not pinned — a plain full-viewport section, flat white. A hard color
+   cut right at the boundary (rather than a gradient handoff) reads as
+   more of a jolt here, which suits the moment — and it keeps the nav's
+   dark/light detection unambiguous, since .home-open's boundary then
+   lines up exactly with where the background actually stops being navy.
+   The statement fades and settles in once, via the same one-shot
+   useInView reveal used everywhere else on the page. */
+.cinema-finale {
   background: var(--paper);
-  z-index: 2;
-}
-
-/* ---- "You" hold-and-release beat ----------------------------------- */
-
-.cinema-you-pin {
-  position: relative;
-  z-index: 3;
-  height: 260vh;
-  /* Without its own opaque background, Beat 1's brown overlay (fixed,
-     nested inside .cinema-pin--1's own stacking context — see the comment
-     there) has nothing later in paint order to block it once you've
-     scrolled down here, so it kept showing through. Every section after
-     Beat 1 needs its own full-bleed background for the same reason. */
-  background: var(--paper);
-}
-
-.cinema-you-sticky {
-  position: sticky;
-  top: 79px;
-  height: calc(100vh - 79px);
+  min-height: 100vh;
   display: flex;
   align-items: center;
-  /* Left, like doom's statement — and specifically left-aligned (not just
-     positioned left), which is what actually keeps "you" from sliding as
-     the rest of the line changes width around it (the trail collapsing,
-     the "can make a difference" trail growing in): with left alignment
-     each line's own left edge is the fixed anchor, so "you" (first word
-     on its line, after the <br/>) never has to move — center or right
-     alignment would still shift it, since growing/shrinking content
-     re-centers or re-flushes the whole line around/against a fixed point
-     on the OTHER side, dragging "you" along with it. */
-  justify-content: flex-start;
-  overflow: hidden;
+  justify-content: center;
+  padding: clamp(64px, 14vh, 160px) 24px;
 }
 
-.cinema-you-stage {
-  position: relative;
-  max-width: 760px;
-  padding: 0 24px;
-}
-
-/* .cinema-statement's own text-align: center and margin: 0 auto (its base
-   rule) take precedence over anything just inherited from the stage, so
-   override them directly here. */
-.cinema-you-stage .cinema-statement {
+.cinema-finale__statement {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(64px, 15vw, 200px);
+  line-height: 0.96;
+  letter-spacing: -0.01em;
+  color: var(--navy);
+  text-align: center;
   margin: 0;
-  text-align: left;
+  opacity: 0;
+  transform: translateY(24px) scale(0.96);
+  transition: opacity 1s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 1s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-.cinema-you-lead,
-.cinema-you-trail,
-.cinema-you-cta-trail {
-  transition: opacity 0.9s ease;
-}
-
-/* Invisible anchors placed at set points inside the tall pin — each one is
-   what Home.jsx's scroll handler actually watches (comparing the anchor's
-   position to the viewport's vertical center) to fire the "isolate you" /
-   "show the CTA" moments, still scroll-triggered but not via
-   IntersectionObserver — see the comment in Home.jsx for why. */
-.cinema-you-trigger {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 1px;
-}
-
-/* ---- Transition into the mission statement -------------------------- */
-
-.cinema-join {
-  position: relative;
-  z-index: 3;
-  font-family: var(--font-body);
-  font-size: clamp(16px, 1.8vw, 20px);
-  color: var(--muted);
-  text-align: center;
-  margin: 0 0 8px;
-  padding-top: clamp(48px, 8vh, 96px);
-  background: var(--paper);
-}
-
-/* The landing state — static, no reveal animation (see Home.jsx). Full-
-   bleed (no max-width/margin:auto here) so its cream background actually
-   covers the whole page rather than just a centered column — the inner
-   .cinema-statement already centers and caps the text itself. */
-.cinema-mission {
-  position: relative;
-  z-index: 3;
-  padding: 0 24px clamp(96px, 16vh, 180px);
-  text-align: center;
-  background: var(--paper);
-}
-
-.cinema-mission .cinema-statement {
-  font-size: clamp(24px, 3.2vw, 36px);
-  line-height: 1.4;
-}
-
-.cinema-highlight-link {
-  color: var(--accent);
-  text-decoration: underline;
-  text-decoration-color: rgba(0, 71, 186, 0.4);
-  text-underline-offset: 4px;
-}
-
-.cinema-highlight-link:hover {
-  text-decoration-color: currentColor;
-}
-
-/* ---- Mobile: same pin/sticky mechanic, just full-width text with no
-   side-by-side content to share the stage with. ------------------------- */
-@media (max-width: 860px) {
-  .cinema-stage {
-    width: 100%;
-  }
+.cinema-finale__statement.revealed {
+  opacity: 1;
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .cinema-word,
-  .cinema-you-lead,
-  .cinema-you-trail,
-  .cinema-you-cta-trail {
-    transition: opacity 0.3s ease;
+  .cinema-finale__statement {
+    transition: none;
+  }
+  .cinema-finale__statement {
+    opacity: 1;
     transform: none;
   }
 }

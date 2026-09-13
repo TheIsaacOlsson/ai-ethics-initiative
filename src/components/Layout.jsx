@@ -4,11 +4,16 @@ import ScrollLogo from './ScrollLogo.jsx'
 import useRevealOnScroll from '../hooks/useRevealOnScroll.js'
 import '../reveal.css'
 
+// Principles comes right after Home — it's the intellectual center of the
+// initiative, not one option among equals. Kickstart keeps its existing
+// route but surfaces under the "Learn" label so it doesn't read as the
+// primary product; "Calendar" is relabeled "Events" to match the homepage's
+// language for the same page.
 const NAV = [
   { to: '/', label: 'Home' },
-  { to: '/get-involved', label: 'Calendar' },
-  { to: '/kickstart', label: 'Kickstart' },
   { to: '/principles', label: 'Principles' },
+  { to: '/kickstart', label: 'Learn' },
+  { to: '/get-involved', label: 'Events' },
   { to: '/news', label: 'News' },
 ]
 
@@ -65,13 +70,25 @@ export default function Layout() {
       setScrollProgress(p)
 
       // The header is a translucent glass strip now — tint and text color
-      // adapt to whether a dark hero (painting / navy band) or the plain
-      // cream page is still showing through underneath it. .phead--paper
-      // is explicitly excluded — it's the cream/dark-ink variant of
-      // .phead, not a dark band, so the nav needs its light-background
-      // (dark text) treatment over it, same as the plain cream page.
-      const darkEl = document.querySelector('.phead:not(.phead--paper), .mission--hero')
-      setOnDark(darkEl ? darkEl.getBoundingClientRect().bottom > NAV_HEIGHT : false)
+      // adapt to whether a dark hero/band or the plain white page is
+      // currently showing through underneath it. .phead--paper is
+      // explicitly excluded — it's the white/dark-ink variant of .phead,
+      // not a dark band, so the nav needs its light-background (dark text)
+      // treatment over it, same as the plain white page.
+      //
+      // Checks every dark band for overlap with the nav strip itself
+      // (not just the first one in the document) — the homepage has
+      // several navy sections spaced down the page (the opening, the
+      // mission band, the reflective break, the final CTA), any of which
+      // can be sitting directly under the nav at a given scroll position.
+      const darkEls = document.querySelectorAll(
+        '.phead:not(.phead--paper), .home-open, .mission, .mission-band, .reflect, .final-cta',
+      )
+      const isDark = Array.from(darkEls).some((el) => {
+        const r = el.getBoundingClientRect()
+        return r.top < NAV_HEIGHT && r.bottom > 0
+      })
+      setOnDark(isDark)
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     mq.addEventListener('change', onScroll)

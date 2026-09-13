@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import Carousel from '../components/Carousel.jsx'
 import EventsCalendar from '../components/EventsCalendar.jsx'
-import '../mission-home.css'
 import '../get-involved.css'
 
 export default function GetInvolved() {

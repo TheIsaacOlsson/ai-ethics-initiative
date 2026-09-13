@@ -1,357 +1,255 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import ExploreNav from '../components/ExploreNav.jsx'
 import CinemaWords from '../components/cinema/CinemaWords.jsx'
 import useInView from '../hooks/useInView.js'
-import '../mission-home.css'
+import { PRINCIPLES } from '../data/principles.js'
+import { events, longDate as eventLongDate } from '../data/events.js'
+import { latestIssue } from '../data/news.js'
 import '../cinema-sequence.css'
+import '../homepage.css'
 
-const SHAKE_REVERSALS = 5
-const SHAKE_WINDOW_MS = 1000
-const WORM_DURATION_MS = 2500
-
-const GROW_DISTANCE = 500
-const MAX_GROW = 0.5
-
-const WELCOME_WORDS = [
-  'so happy',
-  'overjoyed',
-  'thrilled',
-  'ecstatic',
-  'delighted',
-  'stoked',
-  'elated',
+// The opening argument, tightened to four short beats instead of a long
+// scroll-hijacked sequence — see cinema-sequence.css for why each one is
+// its own short pin rather than one continuous scroll-scrubbed narrative.
+const OPENING_BEATS = [
+  'AI is changing rapidly.',
+  'There are many ideas about where this is headed.',
+  'We believe AI can help people flourish.',
+  'But technology does not determine who we become.',
 ]
 
-export default function Home() {
-  const [heroScale, setHeroScale] = useState(1)
-  const [cueOpacity, setCueOpacity] = useState(1)
-  const [welcomeWord] = useState(
-    () => WELCOME_WORDS[Math.floor(Math.random() * WELCOME_WORDS.length)],
+function OpeningBeat({ text }) {
+  const [ref, inView] = useInView({ threshold: 0.5 })
+  return (
+    <div className="cinema-pin" ref={ref}>
+      <div className="cinema-sticky">
+        <div className="cinema-stage">
+          <CinemaWords text={text} revealed={inView} className="cinema-statement" />
+        </div>
+      </div>
+    </div>
   )
-  // --- Cinematic sequence reveal state -----------------------------------
-  //
-  // Text/card reveals stay IntersectionObserver-driven (one-shot booleans,
-  // per the build spec). The three background-color overlays (painting →
-  // brown → black → cream), though, are deliberately scroll-scrubbed —
-  // each one's opacity is a direct function of how far its beat's pin has
-  // scrolled through the viewport, computed alongside heroScale/cueOpacity
-  // in the scroll handler below, so the color genuinely tracks your scroll
-  // position (and reverses cleanly on the way back up) instead of playing
-  // a fixed-length animation once triggered.
-  const [beat1Ref, beat1InView] = useInView({ threshold: 0.4 })
-  const [beat2Ref, beat2InView] = useInView({ threshold: 0.2 })
-  // Higher than doom's — hope's text is dark ink (for its eventual cream
-  // background), so it shouldn't reveal too early in the black→cream
-  // crossfade, while the background is still mostly dark.
-  const [hopeRef, hopeInView] = useInView({ threshold: 0.35 })
-  const [joinRef, joinInView] = useInView({ threshold: 0.5 })
+}
 
-  const [beat1FadeOpacity, setBeat1FadeOpacity] = useState(0)
-  const [beat2FadeOpacity, setBeat2FadeOpacity] = useState(0)
-  const [hopeFadeOpacity, setHopeFadeOpacity] = useState(0)
+const nextEvent = events[0]
+const recentIssue = latestIssue
 
-  const youPinRef = useRef(null)
-  const [youIntroRef, youIntroInView] = useInView({ threshold: 0.5 })
-  const isolateTriggerRef = useRef(null)
-  const ctaTriggerRef = useRef(null)
-  const [isolateYou, setIsolateYou] = useState(false)
-  const [showCTA, setShowCTA] = useState(false)
+// How long scrolling holds once "You do." first lands on screen — long
+// enough to register as a deliberate beat, short enough not to feel stuck.
+const FINALE_PAUSE_MS = 1000
 
+export default function Home() {
+  const [finaleRef, finaleInView] = useInView({ threshold: 0.6 })
+  const hasPausedRef = useRef(false)
+
+  // One-shot scroll hold on the finale's first appearance — everywhere
+  // else on this page scrolling stays untouched, but this single moment
+  // is meant to land and sit for a beat before the page lets go again.
+  // Skipped under reduced motion, where the text is simply already there.
   useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY
-      setHeroScale(1 + Math.min(1, y / GROW_DISTANCE) * MAX_GROW)
-      setCueOpacity(Math.max(0, 1 - y / 120))
+    if (!finaleInView || hasPausedRef.current) return
+    hasPausedRef.current = true
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-      // Each overlay's opacity ramps 0 → 1 as its beat's pin scrolls up
-      // through roughly the next viewport-and-a-half — pure scroll-scrub,
-      // no timers — then holds at 1 for the rest of that pin's height.
-      // Forcing it back to 0 once the pin's bottom has passed the top of
-      // the screen (rect.bottom <= 0) is what makes it reverse cleanly on
-      // the way back up, and keeps it from lingering into later sections:
-      // each overlay is position: fixed and nested inside its own beat's
-      // pin (so it can fade in over that beat's own background) rather
-      // than a plain top-level sibling, so without this bound it would
-      // otherwise stay fully opaque forever once first triggered.
-      const FADE_DISTANCE = window.innerHeight * 1.8
-      const fadeFor = (rect) =>
-        rect.bottom > 0
-          ? Math.min(1, Math.max(0, (window.innerHeight - rect.top) / FADE_DISTANCE))
-          : 0
-
-      if (beat1Ref.current) setBeat1FadeOpacity(fadeFor(beat1Ref.current.getBoundingClientRect()))
-      if (beat2Ref.current) setBeat2FadeOpacity(fadeFor(beat2Ref.current.getBoundingClientRect()))
-      if (hopeRef.current) setHopeFadeOpacity(fadeFor(hopeRef.current.getBoundingClientRect()))
-
-      // Which side of the viewport's vertical center each anchor is on —
-      // stays true for as long as you're scrolled past it (reversing
-      // cleanly on the way back up), unlike an IntersectionObserver with a
-      // rootMargin squeezed to that same center line: against a 1px-tall
-      // anchor, isIntersecting is only ever true for the single scroll
-      // frame actually crossing that line, then flips back to false the
-      // moment you scroll past it — which was the actual bug here (the
-      // isolate/CTA moments never stayed, just flickered on the way past).
-      if (isolateTriggerRef.current) {
-        setIsolateYou(isolateTriggerRef.current.getBoundingClientRect().top <= window.innerHeight / 2)
-      }
-      if (ctaTriggerRef.current) {
-        setShowCTA(ctaTriggerRef.current.getBoundingClientRect().top <= window.innerHeight / 2)
-      }
+    const block = (e) => e.preventDefault()
+    const blockKeys = (e) => {
+      if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' '].includes(e.key)) e.preventDefault()
     }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+    window.addEventListener('wheel', block, { passive: false })
+    window.addEventListener('touchmove', block, { passive: false })
+    window.addEventListener('keydown', blockKeys)
 
-  const wormRef = useRef(null)
-  useEffect(() => {
-    const el = wormRef.current
-    if (!el) return
-    let lastX = null
-    let lastDir = 0
-    let reversalTimes = []
-    let wormTimeout = null
-
-    const onMouseMove = (e) => {
-      if (lastX !== null) {
-        const dx = e.clientX - lastX
-        if (Math.abs(dx) > 4) {
-          const dir = dx > 0 ? 1 : -1
-          if (lastDir !== 0 && dir !== lastDir) {
-            const now = Date.now()
-            reversalTimes.push(now)
-            reversalTimes = reversalTimes.filter((t) => now - t < SHAKE_WINDOW_MS)
-            if (reversalTimes.length >= SHAKE_REVERSALS) {
-              reversalTimes = []
-              el.classList.add('worm-active')
-              if (wormTimeout) clearTimeout(wormTimeout)
-              wormTimeout = setTimeout(() => el.classList.remove('worm-active'), WORM_DURATION_MS)
-            }
-          }
-          lastDir = dir
-        }
-      }
-      lastX = e.clientX
+    const release = () => {
+      window.removeEventListener('wheel', block)
+      window.removeEventListener('touchmove', block)
+      window.removeEventListener('keydown', blockKeys)
     }
-
-    window.addEventListener('mousemove', onMouseMove)
+    const timer = setTimeout(release, FINALE_PAUSE_MS)
     return () => {
-      window.removeEventListener('mousemove', onMouseMove)
-      if (wormTimeout) clearTimeout(wormTimeout)
+      clearTimeout(timer)
+      release()
     }
-  }, [])
+  }, [finaleInView])
+
+  const scrollToPrinciples = (e) => {
+    e.preventDefault()
+    document.getElementById('our-principles')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 
   return (
     <>
-      <section className="mission mission--hero" data-screen-label="Mission">
-        {/* No fade here — "Welcome" always stays the plain painting, no
-            overlay at all. The brown fade now happens in Beat 1's own
-            section below, which starts out showing this same painting
-            (via the shared .mission--hero background rules) before fading
-            to brown once you've scrolled into it. */}
+      {/* Section 1 — Cinematic opening. .home-open is what tells Layout.jsx
+          to render the nav light-on-dark for this stretch of the page. */}
+      <section className="home-open" data-screen-label="Opening">
+        {OPENING_BEATS.map((text) => (
+          <OpeningBeat key={text} text={text} />
+        ))}
+      </section>
+
+      {/* Finale — isolated, high-contrast, deliberately roomy. Its gradient
+          background (see .cinema-finale) is what carries the page from navy
+          into white without a hard cut. */}
+      <div className="cinema-finale" ref={finaleRef} data-screen-label="Finale">
+        <p className={`cinema-finale__statement ${finaleInView ? 'revealed' : ''}`}>You do.</p>
+      </div>
+
+      {/* Section 2 — The pivot */}
+      <section className="pivot" data-screen-label="Pivot">
         <div className="wrap">
-          <div className="mission__inner worm-cursor" ref={wormRef}>
-            <div className="mission__intro">
-              <h2 className="mission__welcome" style={{ transform: `scale(${heroScale})` }}>
-                Welcome
-              </h2>
-              <p className="mission__welcome-sub">We are {welcomeWord} you&apos;re here!</p>
-              <div className="scroll-cue mission__scroll-cue" style={{ opacity: cueOpacity }}>
-                Scroll
-              </div>
-            </div>
-          </div>
+          <p className="kicker" data-reveal>The thesis</p>
+          <h2 className="pivot__headline" data-reveal>
+            Technology will change.
+            <br />
+            Principles endure.
+          </h2>
+          <p className="pivot__body" data-reveal>
+            The AI &amp; Ethics Initiative explores principles that can guide how we use
+            artificial intelligence, regardless of what tools come next.
+          </p>
+          <a href="#our-principles" className="pivot__cta" onClick={scrollToPrinciples} data-reveal>
+            Explore our principles <span aria-hidden="true">&darr;</span>
+          </a>
         </div>
       </section>
 
-      <section className="cinema-sequence" data-screen-label="Cinematic sequence">
-        {/* Beat 1 — reuses .mission--hero's own painting background (fixed,
-            same image/position), so scrolling from "Welcome" into this pin
-            reads as one continuous, unmoving backdrop rather than a cut.
-            The black overlay then fades in on top of it once this section
-            is actually in view — "starts as painting, then fades to
-            black," not black from the moment you leave Welcome. */}
-        <div className="cinema-pin cinema-pin--1 mission--hero" ref={beat1Ref}>
-          <div
-            className="mission__fade-overlay"
-            style={{ opacity: beat1FadeOpacity }}
-            aria-hidden="true"
-          />
-          <div className="cinema-sticky">
-            <div className="cinema-stage">
-              <CinemaWords
-                text="AI is the fastest-spreading technology in human history."
-                revealed={beat1InView}
-                className="cinema-statement"
-              />
-            </div>
+      {/* Section 3 — Principles: the centerpiece of the page */}
+      <section className="principles-framework" id="our-principles" data-screen-label="Principles">
+        <div className="wrap">
+          <div className="principles-framework__head">
+            <p className="kicker" data-reveal>Our principles</p>
+            <h2 className="principles-framework__lead" data-reveal>
+              A framework for navigating
+              <br />
+              artificial intelligence.
+            </h2>
           </div>
+          <ol className="principles-list reveal-stagger">
+            {PRINCIPLES.map((p) => (
+              <li className="principles-list__row" key={p.id} data-reveal>
+                <Link to={`/principles#${p.id}`} className="principles-list__item">
+                  <span className="principles-list__num">{p.num}</span>
+                  <span className="principles-list__body">
+                    <span className="principles-list__title">{p.title}</span>
+                    <span className="principles-list__tag">
+                      <span>{p.tag}</span>
+                    </span>
+                  </span>
+                  <span className="principles-list__arrow" aria-hidden="true">&rarr;</span>
+                </Link>
+              </li>
+            ))}
+          </ol>
         </div>
+      </section>
 
-        {/* Beat 2 — Beat 1 has already faded all the way to black by the
-            time this pin is reached, so this pin's own base background is
-            already black too (see cinema-sequence.css) and this bridge is
-            effectively a no-op hold at black — kept for structural
-            consistency with Beat 3 and in case the two blacks ever need to
-            diverge again. Same pin/sticky/reveal mechanic as Beat 1 —
-            no headline cards, just the pinned line of text. */}
-        <div className="cinema-pin cinema-pin--doom" ref={beat2Ref}>
-          <div
-            className="cinema-bridge cinema-bridge--to-black"
-            style={{ opacity: beat2FadeOpacity }}
-            aria-hidden="true"
-          />
-          <div className="cinema-sticky">
-            <div className="cinema-stage">
-              <CinemaWords
-                text="A lot of people have thoughts on where this is headed."
-                revealed={beat2InView}
-                className="cinema-statement"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Beat 3 — starts out still showing Beat 2's black (its own base
-            background), then the cream overlay fades in over it as you
-            scroll into this pin — same nested-overlay technique, so
-            black→cream is a real gradual crossfade too. Same pin/sticky/
-            reveal mechanic as Beat 1 — no headline cards. */}
-        <div className="cinema-pin cinema-pin--hope" ref={hopeRef}>
-          <div
-            className="cinema-bridge cinema-bridge--to-cream"
-            style={{ opacity: hopeFadeOpacity }}
-            aria-hidden="true"
-          />
-          <div className="cinema-sticky">
-            <div className="cinema-stage">
-              <CinemaWords
-                text="We believe AI can help people flourish in unprecedented ways."
-                revealed={hopeInView}
-                className="cinema-statement"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Beats 4 & 5 — the responsibility pivot, "you" held alone, then
-            the CTA. Held on screen via position: sticky (declarative CSS,
-            not scroll math); the isolate/CTA moments are still triggered
-            by IntersectionObserver watching two anchor points inside this
-            pinned range. */}
-        <div className="cinema-you-pin" ref={youPinRef}>
-          <div className="cinema-you-sticky">
-            <div className="cinema-you-stage" ref={youIntroRef}>
-              <p className="cinema-statement">
-                <span
-                  className="cinema-you-lead"
-                  style={{ opacity: youIntroInView && !isolateYou ? 1 : 0 }}
-                >
-                  It all depends on how people like
-                  <br />
-                </span>
-                <span
-                  className="cinema-highlight"
-                  style={{ opacity: youIntroInView ? 1 : 0, transition: 'opacity 0.9s ease' }}
-                >
-                  you
-                </span>
-                <span className="cinema-you-trail" style={{ opacity: youIntroInView && !isolateYou ? 1 : 0 }}>
-                  {' '}
-                  choose to build and use these tools.
-                </span>
-                {/* "you" stays put (see the highlight span above, which no
-                    longer fades out for this) and this fades in on its own
-                    line right below it — one text box, a real line break,
-                    rather than a whole separate sentence appearing
-                    elsewhere or a second box position-matched against the
-                    first. The gap scales with this text's own font-size
-                    (normal line-height behavior) — same as every other
-                    line break in this sequence, not pinned to a fixed
-                    pixel distance. */}
-                <br />
-                <span
-                  className="cinema-you-cta-trail"
-                  style={{ opacity: showCTA ? 1 : 0, transition: 'opacity 0.9s ease' }}
-                >
-                  can make a difference.
-                </span>
-              </p>
-            </div>
-          </div>
-          <div className="cinema-you-trigger" ref={isolateTriggerRef} style={{ top: '42%' }} />
-          <div className="cinema-you-trigger" ref={ctaTriggerRef} style={{ top: '78%' }} />
-        </div>
-
-        {/* Beat 6 — transition into the mission statement, which per the
-            build spec lands in a distinct, settled, non-animated state
-            ("static, confident, full-stop") rather than the scroll-driven
-            reveal the rest of this sequence uses. */}
-        <div ref={joinRef}>
-          <CinemaWords text="Join us as we strive to..." revealed={joinInView} className="cinema-join" />
-        </div>
-
-        {/* Static — no scroll-triggered reveal here. Per the build spec,
-            the sequence should feel "landed" by this point: full-stop,
-            settled, always fully visible rather than animating in. */}
-        <div className="cinema-mission">
-          <p className="cinema-statement">
+      {/* Section 4 — Mission: AI → human agency → Principles → Christlike leadership */}
+      <section className="mission-band" data-screen-label="Mission">
+        <div className="wrap">
+          <p className="kicker" data-reveal>Our mission</p>
+          <h2 className="mission-band__headline" data-reveal>
+            Developing Christlike leaders in an age of artificial intelligence.
+          </h2>
+          <p className="mission-band__statement" data-reveal>
             Our mission is to develop Christlike leaders who treat artificial intelligence as a{' '}
-            <a href="#" className="cinema-highlight-link">
-              stewardship
-            </a>{' '}
-            — harnessing it ethically for people, communities, and the world.
+            <Link to="/principles#p1">stewardship</Link> &mdash; harnessing it ethically for
+            people, communities, and the world.
           </p>
         </div>
       </section>
 
-      <section className="section" data-screen-label="Highlights">
+      {/* Section 5 — Put the Principles into practice */}
+      <section className="practice" data-screen-label="Practice">
         <div className="wrap">
-          <div className="grid cols-2 reveal-stagger">
-            <Link className="card" to="/principles" data-reveal style={{ display: 'grid', gridTemplateColumns: '1fr' }}>
-              <div className="card__body" style={{ padding: 32 }}>
-                <p className="kicker">Start here</p>
-                <h3 className="card__title" style={{ fontSize: 26 }}>
-                  The Principles of Ethical AI Use
-                </h3>
-                <p className="card__excerpt" style={{ fontSize: 16 }}>
-                  Tag-line for the principles
-                </p>
-                <span className="link-more" style={{ marginTop: 18 }}>
-                  <span className="uline">Read the Principles</span>
-                  <span className="arrow">&rarr;</span>
-                </span>
-              </div>
-            </Link>
-            <Link className="card" to="/news#newsletter" data-reveal style={{ display: 'grid', gridTemplateColumns: '1fr' }}>
-              <div className="card__body" style={{ padding: 32 }}>
-                <p className="kicker">Stay in the loop</p>
-                <h3 className="card__title" style={{ fontSize: 26 }}>
-                  The AI Ethics Newsletter
-                </h3>
-                <p className="card__excerpt" style={{ fontSize: 16 }}>
-                  Tag-line for the principles
-                </p>
-                <span className="link-more" style={{ marginTop: 18 }}>
-                  <span className="uline">Subscribe now</span>
-                  <span className="arrow">&rarr;</span>
-                </span>
-              </div>
-            </Link>
+          <div className="practice__head">
+            <p className="kicker" data-reveal>In practice</p>
+            <h2 data-reveal>Put the Principles into practice</h2>
+          </div>
+          <div className="practice-grid reveal-stagger">
+            <article className="practice-block" data-reveal>
+              <p className="practice-block__eyebrow">Learn</p>
+              <h3>AI Kickstart</h3>
+              <p>A hands-on introduction to using AI tools thoughtfully, built around the Principles.</p>
+              <Link className="link-more" to="/kickstart">
+                Start learning<span className="arrow">&rarr;</span>
+              </Link>
+            </article>
+            <article className="practice-block" data-reveal>
+              <p className="practice-block__eyebrow">Engage</p>
+              <h3>Events &amp; Conversations</h3>
+              <p>Workshops, panels, and forums where the Principles meet real questions.</p>
+              <Link className="link-more" to="/get-involved">
+                See upcoming events<span className="arrow">&rarr;</span>
+              </Link>
+            </article>
+            <article className="practice-block" data-reveal>
+              <p className="practice-block__eyebrow">Explore</p>
+              <h3>Ideas &amp; Resources</h3>
+              <p>Curated reading and updates on AI ethics, delivered weekly.</p>
+              <Link className="link-more" to="/news">
+                Explore resources<span className="arrow">&rarr;</span>
+              </Link>
+            </article>
           </div>
         </div>
       </section>
 
-      <section className="section explore-section" data-screen-label="Explore">
+      {/* Section 6 — Reflective break */}
+      <section className="reflect" data-screen-label="Reflective break">
+        <div className="wrap reveal-stagger">
+          <p className="reflect__line" data-reveal>AI can help you do more.</p>
+          <p className="reflect__line reflect__line--pause" data-reveal>
+            But who is it helping you become?
+          </p>
+          <p className="reflect__line reflect__line--answer" data-reveal>
+            That&rsquo;s the question we&rsquo;re interested in.
+          </p>
+        </div>
+      </section>
+
+      {/* Section 7 — From the Initiative */}
+      <section className="activity" data-screen-label="From the Initiative">
         <div className="wrap">
-          <div className="section-head explore-section__head">
-            <div>
-              <p className="kicker">Explore</p>
-              <h2>Find your way in</h2>
-            </div>
+          <div className="activity__head">
+            <p className="kicker" data-reveal>From the initiative</p>
+            <h2 data-reveal>Currently</h2>
           </div>
-          <ExploreNav />
+          <div className="activity-grid reveal-stagger">
+            <article className="activity-item" data-reveal>
+              <span className="activity-item__eyebrow">Upcoming event</span>
+              <h3>
+                <Link to={`/events/${nextEvent.slug}`}>{nextEvent.title}</Link>
+              </h3>
+              <p>
+                {eventLongDate(nextEvent.date)} &middot; {nextEvent.place}
+              </p>
+            </article>
+            <article className="activity-item" data-reveal>
+              <span className="activity-item__eyebrow">From the newsletter</span>
+              <h3>
+                <Link to="/newsletter">{recentIssue.title}</Link>
+              </h3>
+              <p>{recentIssue.summary}</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 8 — Final CTA: return to the thesis, not a generic sign-off */}
+      <section className="final-cta" data-screen-label="Final CTA">
+        <div className="wrap">
+          <p className="final-cta__statement" data-reveal>
+            The future of AI isn&rsquo;t only about what technology can do.
+            <br />
+            It&rsquo;s about what we choose to do with it.
+          </p>
+          <Link className="btn btn--accent final-cta__btn" to="/principles" data-reveal>
+            Explore the Principles<span className="arrow">&rarr;</span>
+          </Link>
+          <p className="final-cta__secondary" data-reveal>
+            <Link className="link-more" to="/news#newsletter">
+              Get the newsletter<span className="arrow">&rarr;</span>
+            </Link>
+          </p>
         </div>
       </section>
     </>

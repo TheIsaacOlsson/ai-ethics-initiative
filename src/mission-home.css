@@ -12,41 +12,29 @@
     auto;
 }
 
+/* BYU brand guidelines call for navy/white/royal as the dominant site
+   colors, so the old scenic painting background is gone — this is now a
+   flat BYU Navy panel instead of a photographic hero. */
 .mission--hero {
   position: relative;
-  background-image: linear-gradient(rgba(20, 17, 12, 0.32), rgba(20, 17, 12, 0.5)),
-    url('/images/hero-lackawanna-valley.jpg');
-  background-size: cover;
-  background-position: 50% 65%;
-  /* Pinned/parallax feel matching the reference's fixed hero — the
-     painting stays put while the mission content scrolls over it. */
-  background-attachment: fixed;
+  background: var(--navy);
 }
 
-@media (pointer: coarse) {
-  /* background-attachment: fixed is unreliable on touch/mobile browsers
-     (notably iOS Safari) — fall back to a normal scrolling background.
-     Gated on touch input specifically (not window width) so the painting
-     stays put on any desktop browser, even a narrower window. */
-  .mission--hero {
-    background-attachment: scroll;
-  }
-}
-
-/* Fades the painting into black as "Welcome" scrolls away — the backdrop
-   for Beat 1 ("AI is the fastest-spreading..."), see cinema-sequence.css.
-   Same color as .cinema-pin--doom's own background, so there's no visible
-   seam once this overlay hands off to it. position: fixed + a scroll-
-   computed opacity — deliberately NOT a sticky/grid background layer,
-   since that approach was tried for the painting itself earlier and caused
-   real scroll-jump bugs. No CSS transition on purpose — the opacity tracks
-   scrollY directly (see Home.jsx) for a true scroll-scrubbed fade; a timed
-   transition would lag behind the actual scroll position instead of
-   moving with it. */
+/* Beat 1 ("AI is the fastest-spreading...", see cinema-sequence.css)
+   already starts on this same navy, so this fade is a no-op in color
+   terms — kept only for structural consistency with the rest of the
+   sequence (the doom/hope beats use the identical bridge-overlay
+   pattern) in case the two ever need to diverge again. position: fixed +
+   a scroll-computed opacity — deliberately NOT a sticky/grid background
+   layer, since that approach was tried for the hero itself earlier and
+   caused real scroll-jump bugs. No CSS transition on purpose — the
+   opacity tracks scrollY directly (see Home.jsx) for a true scroll-
+   scrubbed fade; a timed transition would lag behind the actual scroll
+   position instead of moving with it. */
 .mission__fade-overlay {
   position: fixed;
   inset: 0;
-  background: #14110c;
+  background: var(--navy);
   pointer-events: none;
   z-index: 0;
 }
@@ -89,14 +77,14 @@
 
 .mission__welcome {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-size: clamp(48px, 9.5vw, 120px);
   line-height: 1;
-  color: #F4F0E8;
+  color: #FFFFFF;
   margin: 0;
-  text-shadow: 0 1px 10px rgba(20, 17, 12, 0.65);
+  text-shadow: 0 1px 10px rgba(0, 46, 93, 0.65);
   transform-origin: center top;
   will-change: transform;
 }
@@ -104,15 +92,15 @@
 .mission__welcome-sub {
   font-family: var(--font-display);
   font-size: clamp(17px, 1.8vw, 22px);
-  color: rgba(244, 240, 232, 0.72);
-  text-shadow: 0 1px 6px rgba(20, 17, 12, 0.6);
+  color: rgba(255, 255, 255, 0.72);
+  text-shadow: 0 1px 6px rgba(0, 46, 93, 0.6);
   margin: 20px 0 0;
 }
 
 /* Shared "Scroll" cue — a small fading hint used anywhere a full-bleed
    hero needs to invite the next scroll (Home welcome, Get Involved hero). */
 .scroll-cue {
-  color: rgba(244, 240, 232, 0.7);
+  color: rgba(255, 255, 255, 0.7);
   font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -127,14 +115,9 @@
   content: '';
   width: 1px;
   height: 34px;
-  background: linear-gradient(rgba(244, 240, 232, 0.8), transparent);
+  background: linear-gradient(rgba(255, 255, 255, 0.8), transparent);
 }
 
 .mission__scroll-cue {
   margin-top: 36px;
-}
-
-:root[data-type='grotesque'] .mission__welcome,
-:root[data-type='classic'] .mission__welcome {
-  font-style: normal;
 }

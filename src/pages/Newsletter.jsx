@@ -124,7 +124,7 @@ export default function Newsletter() {
                       placeholder="you@byu.edu"
                       aria-label="Email address"
                       required
-                      style={emailError ? { borderColor: 'oklch(0.7 0.18 25)' } : undefined}
+                      style={emailError ? { borderColor: '#A3082A' } : undefined}
                     />
                     <button className="btn btn--accent" type="submit">
                       Subscribe

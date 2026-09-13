@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 
-const FONT = '"Newsreader", serif'
+const FONT = '"IBM Plex Sans", sans-serif'
 const FONT_SIZE = 20
 const GAP = 8
 
@@ -28,7 +28,7 @@ export default function ScrollLogo({ progress = 0, light = false }) {
       setW(widths)
     }
     measure()
-    // The initial measurement can run before the Newsreader webfont has
+    // The initial measurement can run before the IBM Plex Sans webfont has
     // finished loading, baking in narrower fallback-font widths that clip
     // the real (wider) glyphs once the font swaps in. Re-measure once fonts
     // are actually ready.
@@ -44,10 +44,10 @@ export default function ScrollLogo({ progress = 0, light = false }) {
     fontStyle: 'normal',
     textTransform: 'uppercase',
     fontSize: FONT_SIZE,
-    color: light ? '#F4F0E8' : '#2A251E',
+    color: light ? '#FFFFFF' : '#141414',
     letterSpacing: '0.1em',
     whiteSpace: 'nowrap',
-    textShadow: light ? '0 1px 5px rgba(20, 17, 12, 0.55)' : 'none',
+    textShadow: light ? '0 1px 5px rgba(0, 46, 93, 0.55)' : 'none',
     transition: 'color .25s ease, text-shadow .25s ease',
   }
 

@@ -1,9 +1,10 @@
 /* =========================================================================
    Cinematic scroll sequence — doom/hope statements → "you" → mission
-   statement. Sits right after "Welcome" on the homepage. Museum-green +
-   cream palette (distinct from the dark painting-hero above it); typography
-   stays on the site's existing Newsreader (--font-display / --font-body) —
-   this section doesn't introduce a second display font.
+   statement. Sits right after "Welcome" on the homepage. Navy + white,
+   per BYU's brand guidelines (brand.byu.edu/web-theme) — the highlight
+   accent below is BYU Royal, not the old museum-green. Typography stays
+   on the site's IBM Plex Sans (--font-display / --font-body) — this
+   section doesn't introduce a second display font.
 
    Each beat is a tall "pin": position: sticky holds its text centered on
    screen while the user keeps scrolling — same mechanic as the "you" hold
@@ -14,8 +15,6 @@
    ========================================================================= */
 
 .cinema-sequence {
-  --museum-green: #2f4a3c;
-  --museum-green-deep: #23362c;
   background: var(--paper);
   color: var(--ink);
   position: relative;
@@ -29,16 +28,16 @@
   height: 200vh;
 }
 
-/* No background of its own — it reuses .mission--hero's painting (see the
-   combined class in Home.jsx) and fades to black via .mission__fade-overlay
+/* No background of its own — it reuses .mission--hero's navy panel (see
+   the combined class in Home.jsx) and fades in via .mission__fade-overlay
    instead, so it visually continues straight out of "Welcome" rather than
-   cutting to solid black the instant you leave it. */
+   cutting at the pin boundary. */
 
 /* Base color is the PREVIOUS beat's color, not this one's — each pin's own
    nested .cinema-bridge overlay (see Home.jsx) is what fades it forward to
    its actual color as you scroll in, so the transition between beats is a
    real crossfade rather than a hard cut right at the pin boundary. Doom's
-   previous beat (Beat 1) already ends at black, so this is black too. */
+   previous beat (Beat 1) already ends at navy, so this is navy too. */
 .cinema-pin--doom {
   background: var(--navy);
 }
@@ -90,8 +89,8 @@
 }
 
 .cinema-pin--1 .cinema-statement {
-  color: #f4f0e8;
-  text-shadow: 0 1px 8px rgba(20, 17, 12, 0.35);
+  color: #FFFFFF;
+  text-shadow: 0 1px 8px rgba(0, 46, 93, 0.35);
 }
 
 .cinema-pin--doom .cinema-statement {
@@ -134,7 +133,7 @@
 }
 
 .cinema-highlight {
-  color: var(--museum-green);
+  color: var(--accent);
 }
 
 /* ---- Bridges between one beat's background color and the next's ---- */
@@ -260,9 +259,9 @@
 }
 
 .cinema-highlight-link {
-  color: var(--museum-green);
+  color: var(--accent);
   text-decoration: underline;
-  text-decoration-color: rgba(47, 74, 60, 0.4);
+  text-decoration-color: rgba(0, 71, 186, 0.4);
   text-underline-offset: 4px;
 }
 

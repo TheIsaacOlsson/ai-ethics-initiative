@@ -10,10 +10,6 @@ export default function EventDetail() {
     <>
       <header className="phead">
         <div className="wrap">
-          <nav className="crumbs">
-            <Link to="/">Home</Link> <span>/</span> <Link to="/get-involved">Events</Link> <span>/</span>{' '}
-            <span>{ev.title}</span>
-          </nav>
           <p className="kicker">{ev.type}</p>
           <h1>{ev.title}</h1>
           <p>{ev.host ? `Hosted by ${ev.host}` : ''}</p>

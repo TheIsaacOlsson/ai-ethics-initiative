@@ -108,53 +108,14 @@ function Mission() {
   )
 }
 
-// The white → navy handoff right after Mission: pinned crossfade with no
-// text of its own, so the color change happens while the screen is blank
-// rather than behind a statement — Pivot right after appears already on
-// solid navy (see Pivot below).
-const TO_NAVY_FADE_VH = 60
-
-function CrossfadeToNavy() {
-  const pinRef = useRef(null)
-  const [navyOpacity, setNavyOpacity] = useState(0)
-
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setNavyOpacity(1)
-      return
-    }
-    const onScroll = () => {
-      const pin = pinRef.current
-      if (!pin) return
-      const vh = window.innerHeight / 100
-      const scrolled = Math.max(0, -pin.getBoundingClientRect().top)
-      setNavyOpacity(clamp01(scrolled / (TO_NAVY_FADE_VH * vh)))
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  return (
-    <div
-      className="crossfade-to-navy-pin"
-      ref={pinRef}
-      style={{ height: `${100 + TO_NAVY_FADE_VH}vh` }}
-      data-screen-label="Crossfade to navy"
-    >
-      <div className="crossfade-to-navy-sticky">
-        {navyOpacity > 0.6 && <div className="crossfade-to-navy-dark-zone" aria-hidden="true" />}
-        <div className="crossfade-to-navy-fade" style={{ opacity: navyOpacity }} aria-hidden="true" />
-      </div>
-    </div>
-  )
-}
-
-// Pivot — plain, static navy (the crossfade above already handles the
-// white → navy transition before this ever comes on screen).
+// Pivot — no pinned crossfade and no added scroll distance: white → navy
+// is a plain CSS color transition (background + text, eased over ~0.9s)
+// triggered once by useInView when the section scrolls into view, rather
+// than a hard cut or a scroll-scrubbed fade.
 function Pivot({ onExploreClick }) {
+  const [ref, inView] = useInView({ threshold: 0.3 })
   return (
-    <section className="pivot" data-screen-label="Pivot">
+    <section className={`pivot${inView ? ' pivot--in' : ''}`} ref={ref} data-screen-label="Pivot">
       <div className="wrap">
         <p className="kicker" data-reveal>The thesis</p>
         <h2 className="pivot__headline" data-reveal>
@@ -201,12 +162,8 @@ export default function Home() {
           in place (see Mission above), plain white. */}
       <Mission />
 
-      {/* Crossfade — carries the page from Mission's white into the navy
-          Pivot/Principles/Practice share, with no text on screen while the
-          color itself is changing (see CrossfadeToNavy above). */}
-      <CrossfadeToNavy />
-
-      {/* Section 2 — The pivot: plain, static navy. */}
+      {/* Section 2 — The pivot: plain, static navy — white → navy is a
+          hard cut right at this section boundary. */}
       <Pivot onExploreClick={scrollToPrinciples} />
 
       {/* Section 3 — Principles: the centerpiece of the page. No heading of

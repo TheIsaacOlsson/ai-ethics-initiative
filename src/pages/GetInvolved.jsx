@@ -8,10 +8,7 @@ export default function GetInvolved() {
     <>
       <header className="phead phead--paper">
         <div className="wrap">
-          <nav className="crumbs">
-            <Link to="/">Home</Link> <span>/</span> <span>Get Involved</span>
-          </nav>
-          <h1>Calendar &amp; Announcements</h1>
+          <h1>Events and Activities</h1>
         </div>
       </header>
 

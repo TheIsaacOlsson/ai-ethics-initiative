@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useLocation, Link } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { PRINCIPLES } from '../data/principles.js'
 
 function StudentIcon() {
@@ -109,9 +109,6 @@ export default function Principles() {
     <>
       <header className="phead">
         <div className="wrap">
-          <nav className="crumbs">
-            <Link to="/">Home</Link> <span>/</span> <span>Principles</span>
-          </nav>
           <p className="kicker">(EXAMPLE TEXT) A FRAMEWORK FOR OUR COMMUNITY</p>
           <h1>FTSOSSSOAI</h1>
           <p>Purpose of the principles</p>

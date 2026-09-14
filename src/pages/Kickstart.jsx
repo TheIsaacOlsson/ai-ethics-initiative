@@ -67,9 +67,6 @@ export default function Kickstart() {
     <>
       <section className="ks-hero">
         <div className="wrap">
-          <nav className="crumbs">
-            <Link to="/">Home</Link> <span>/</span> <span>Kickstart</span>
-          </nav>
           <p className="kicker">Your dashboard</p>
           <h1>Your lessons</h1>
           <p className="lead">

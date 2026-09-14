@@ -382,13 +382,8 @@ a.card:not(:has(.link-more)):hover .card__title { text-decoration: underline; te
 .phead p { color: rgba(255,255,255,0.82); font-size: clamp(17px, 2vw, 20px); max-width: 60ch; margin: 20px 0 0; }
 .phead--paper { background: var(--paper); color: var(--ink); border-bottom: 1px solid var(--line); }
 .phead--paper .kicker { color: var(--accent-ink); }
-.phead--paper h1 { color: var(--ink); }
+.phead--paper h1 { color: var(--ink); font-size: 34px; }
 .phead--paper p { color: var(--muted); }
-
-/* breadcrumb */
-.crumbs { font-size: 13.5px; color: var(--faint); display: flex; gap: 8px; align-items: center; }
-.crumbs a { color: rgba(255,255,255,0.78); }
-.phead--paper .crumbs a { color: var(--accent-ink); }
 
 /* utility */
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }

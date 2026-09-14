@@ -38,9 +38,6 @@ export default function News() {
     <>
       <header className="phead">
         <div className="wrap">
-          <nav className="crumbs">
-            <Link to="/">Home</Link> <span>/</span> <span>News</span>
-          </nav>
           <p className="kicker">News &amp; newsletter</p>
           <h1>News Something-or-other</h1>
           <p>Tag-line for the news feed and newsletter</p>

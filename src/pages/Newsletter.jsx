@@ -22,10 +22,6 @@ export default function Newsletter() {
     <>
       <header className="phead">
         <div className="wrap">
-          <nav className="crumbs">
-            <Link to="/">Home</Link> <span>/</span> <Link to="/news">News</Link> <span>/</span>{' '}
-            <span>Newsletter</span>
-          </nav>
           <p className="kicker">The newsletter &middot; No. {iss.no}</p>
           <h1>{iss.title}</h1>
           <p>

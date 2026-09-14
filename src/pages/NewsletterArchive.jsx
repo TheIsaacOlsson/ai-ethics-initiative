@@ -6,10 +6,6 @@ export default function NewsletterArchive() {
     <>
       <header className="phead">
         <div className="wrap">
-          <nav className="crumbs">
-            <Link to="/">Home</Link> <span>/</span> <Link to="/news">News</Link> <span>/</span>{' '}
-            <Link to="/newsletter">Newsletter</Link> <span>/</span> <span>Archive</span>
-          </nav>
           <p className="kicker">The archive</p>
           <h1>Past issues of the newsletter</h1>
           <p>

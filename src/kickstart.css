@@ -16,11 +16,6 @@
   padding-top: calc(79px + clamp(40px, 6vw, 72px));
   padding-bottom: clamp(48px, 7vw, 84px);
 }
-.ks-hero .crumbs a {
-  /* .crumbs defaults to light text for use on .phead's dark navy — this
-     hero is light/cream, so it needs the dark-on-light variant instead. */
-  color: var(--accent-ink);
-}
 .ks-hero p.lead {
   margin-top: 14px;
   max-width: 56ch;

@@ -82,13 +82,15 @@ export default function Layout() {
       // pivot/principles/practice run, the reflective break), any of which
       // can be sitting directly under the nav at a given scroll position.
       // .mission-band is plain white and deliberately excluded.
-      // .cinema-finale-dark-zone and .crossfade-to-navy-dark-zone only
-      // exist in the DOM while their respective pinned crossfades (see
-      // Home.jsx) are mostly navy, so nav text switches partway through
-      // each fade rather than staying one color into the opposite
-      // background.
+      // .cinema-finale-dark-zone only exists in the DOM while the finale's
+      // pinned crossfade (see Home.jsx) is mostly navy, so nav text
+      // switches partway through that fade rather than staying white into
+      // a white background. .pivot starts out white and only turns navy
+      // once .pivot--in is added (a plain CSS color transition, not a
+      // pinned fade — see Home.jsx/homepage.css), so it's watched via that
+      // class rather than unconditionally like the sections after it.
       const darkEls = document.querySelectorAll(
-        '.phead:not(.phead--paper), .home-open, .cinema-finale-dark-zone, .crossfade-to-navy-dark-zone, .mission, .pivot, .principles-framework, .practice, .reflect',
+        '.phead:not(.phead--paper), .home-open, .cinema-finale-dark-zone, .mission, .pivot--in, .principles-framework, .practice, .reflect',
       )
       const isDark = Array.from(darkEls).some((el) => {
         const r = el.getBoundingClientRect()
@@ -168,12 +170,6 @@ export default function Layout() {
             <div>
               <h4 className="foot__h">Resources</h4>
               <ul>
-                <li>
-                  <Link to="/principles#coursework">Using AI in Coursework</Link>
-                </li>
-                <li>
-                  <Link to="/principles#disclosure">Disclosure &amp; Citation</Link>
-                </li>
                 <li>
                   <a href="mailto:ai-ethics@byu.edu">Request a Workshop</a>
                 </li>

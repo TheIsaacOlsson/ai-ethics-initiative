@@ -33,10 +33,6 @@ export default function Articles() {
     <>
       <header className="phead">
         <div className="wrap">
-          <nav className="crumbs">
-            <Link to="/">Home</Link> <span>/</span> <Link to="/news">News</Link> <span>/</span>{' '}
-            <span>All articles</span>
-          </nav>
           <p className="kicker">(EXAMPLE TEXT) The feed</p>
           <h1>AI Ethics News</h1>
           <p>News feed tag-line</p>

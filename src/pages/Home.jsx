@@ -1,10 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import CinemaWords from '../components/cinema/CinemaWords.jsx'
 import useInView from '../hooks/useInView.js'
 import { PRINCIPLES } from '../data/principles.js'
-import { events, longDate as eventLongDate } from '../data/events.js'
-import { latestIssue } from '../data/news.js'
 import '../cinema-sequence.css'
 import '../homepage.css'
 
@@ -12,8 +10,6 @@ import '../homepage.css'
 // scroll-hijacked sequence — see cinema-sequence.css for why each one is
 // its own short pin rather than one continuous scroll-scrubbed narrative.
 const OPENING_BEATS = [
-  'AI is changing rapidly.',
-  'There are many ideas about where this is headed.',
   'We believe AI can help people flourish.',
   'But technology does not determine who we become.',
 ]
@@ -31,46 +27,154 @@ function OpeningBeat({ text }) {
   )
 }
 
-const nextEvent = events[0]
-const recentIssue = latestIssue
+// The finale's scroll budget, in vh: the background spends BG_FADE_VH
+// fading completely from navy to white, then — only once it's fully
+// white — the statement spends TEXT_FADE_VH fading in on that same spot.
+// HOLD_VH is extra scroll distance after that with nothing left to
+// animate, which is what makes the pin keep holding "You do." on screen
+// for a beat before releasing into the pivot section, rather than a timed
+// animation or an intercepted scroll gesture.
+const BG_FADE_VH = 60
+const TEXT_FADE_VH = 40
+const HOLD_VH = 60
 
-// How long scrolling holds once "You do." first lands on screen — long
-// enough to register as a deliberate beat, short enough not to feel stuck.
-const FINALE_PAUSE_MS = 1000
+function clamp01(n) {
+  return Math.min(1, Math.max(0, n))
+}
+
+function Finale() {
+  const pinRef = useRef(null)
+  const [bgOpacity, setBgOpacity] = useState(0)
+  const [textOpacity, setTextOpacity] = useState(0)
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setBgOpacity(1)
+      setTextOpacity(1)
+      return
+    }
+    const onScroll = () => {
+      const pin = pinRef.current
+      if (!pin) return
+      const vh = window.innerHeight / 100
+      const scrolled = Math.max(0, -pin.getBoundingClientRect().top)
+      setBgOpacity(clamp01(scrolled / (BG_FADE_VH * vh)))
+      setTextOpacity(clamp01((scrolled - BG_FADE_VH * vh) / (TEXT_FADE_VH * vh)))
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  return (
+    <div
+      className="cinema-finale-pin"
+      ref={pinRef}
+      style={{ height: `${100 + BG_FADE_VH + TEXT_FADE_VH + HOLD_VH}vh` }}
+      data-screen-label="Finale"
+    >
+      <div className="cinema-finale-sticky">
+        {bgOpacity < 0.6 && <div className="cinema-finale-dark-zone" aria-hidden="true" />}
+        <div className="cinema-finale-fade" style={{ opacity: bgOpacity }} aria-hidden="true" />
+        <p className="cinema-finale__statement" style={{ opacity: textOpacity }}>
+          You do.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+// Mission — pinned in place (same mechanic as the opening beats) so it
+// holds centered on screen for a beat rather than just scrolling past.
+// Plain white throughout — the white → navy crossfade now happens on the
+// Pivot below instead (see Pivot).
+function Mission() {
+  return (
+    <section className="mission-band" data-screen-label="Mission">
+      <div className="mission-band__pin">
+        <div className="mission-band__sticky">
+          <div className="wrap">
+            <h2 className="mission-band__headline" data-reveal>
+              Join us as we become Christlike leaders in an age of artificial intelligence
+            </h2>
+            <p className="mission-band__statement" data-reveal>
+              that treat AI as a <Link to="/principles#p1">stewardship</Link> &mdash; harnessing
+              it ethically for people, communities, and the world.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// The white → navy handoff right after Mission: pinned crossfade with no
+// text of its own, so the color change happens while the screen is blank
+// rather than behind a statement — Pivot right after appears already on
+// solid navy (see Pivot below).
+const TO_NAVY_FADE_VH = 60
+
+function CrossfadeToNavy() {
+  const pinRef = useRef(null)
+  const [navyOpacity, setNavyOpacity] = useState(0)
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setNavyOpacity(1)
+      return
+    }
+    const onScroll = () => {
+      const pin = pinRef.current
+      if (!pin) return
+      const vh = window.innerHeight / 100
+      const scrolled = Math.max(0, -pin.getBoundingClientRect().top)
+      setNavyOpacity(clamp01(scrolled / (TO_NAVY_FADE_VH * vh)))
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  return (
+    <div
+      className="crossfade-to-navy-pin"
+      ref={pinRef}
+      style={{ height: `${100 + TO_NAVY_FADE_VH}vh` }}
+      data-screen-label="Crossfade to navy"
+    >
+      <div className="crossfade-to-navy-sticky">
+        {navyOpacity > 0.6 && <div className="crossfade-to-navy-dark-zone" aria-hidden="true" />}
+        <div className="crossfade-to-navy-fade" style={{ opacity: navyOpacity }} aria-hidden="true" />
+      </div>
+    </div>
+  )
+}
+
+// Pivot — plain, static navy (the crossfade above already handles the
+// white → navy transition before this ever comes on screen).
+function Pivot({ onExploreClick }) {
+  return (
+    <section className="pivot" data-screen-label="Pivot">
+      <div className="wrap">
+        <p className="kicker" data-reveal>The thesis</p>
+        <h2 className="pivot__headline" data-reveal>
+          Technology will change.
+          <br />
+          Principles endure.
+        </h2>
+        <p className="pivot__body" data-reveal>
+          The AI &amp; Ethics Initiative explores principles that can guide how we use
+          artificial intelligence, regardless of what tools come next.
+        </p>
+        <a href="#our-principles" className="pivot__cta" onClick={onExploreClick} data-reveal>
+          Explore our principles <span aria-hidden="true">&darr;</span>
+        </a>
+      </div>
+    </section>
+  )
+}
 
 export default function Home() {
-  const [finaleRef, finaleInView] = useInView({ threshold: 0.6 })
-  const hasPausedRef = useRef(false)
-
-  // One-shot scroll hold on the finale's first appearance — everywhere
-  // else on this page scrolling stays untouched, but this single moment
-  // is meant to land and sit for a beat before the page lets go again.
-  // Skipped under reduced motion, where the text is simply already there.
-  useEffect(() => {
-    if (!finaleInView || hasPausedRef.current) return
-    hasPausedRef.current = true
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-
-    const block = (e) => e.preventDefault()
-    const blockKeys = (e) => {
-      if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' '].includes(e.key)) e.preventDefault()
-    }
-    window.addEventListener('wheel', block, { passive: false })
-    window.addEventListener('touchmove', block, { passive: false })
-    window.addEventListener('keydown', blockKeys)
-
-    const release = () => {
-      window.removeEventListener('wheel', block)
-      window.removeEventListener('touchmove', block)
-      window.removeEventListener('keydown', blockKeys)
-    }
-    const timer = setTimeout(release, FINALE_PAUSE_MS)
-    return () => {
-      clearTimeout(timer)
-      release()
-    }
-  }, [finaleInView])
-
   const scrollToPrinciples = (e) => {
     e.preventDefault()
     document.getElementById('our-principles')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -86,78 +190,43 @@ export default function Home() {
         ))}
       </section>
 
-      {/* Finale — isolated, high-contrast, deliberately roomy. Its gradient
-          background (see .cinema-finale) is what carries the page from navy
-          into white without a hard cut. */}
-      <div className="cinema-finale" ref={finaleRef} data-screen-label="Finale">
-        <p className={`cinema-finale__statement ${finaleInView ? 'revealed' : ''}`}>You do.</p>
-      </div>
+      {/* Finale — pinned in place while the background fades completely to
+          white, then "You do." fades in on that same spot (see Finale
+          above / cinema-sequence.css for the mechanics). */}
+      <Finale />
 
-      {/* Section 2 — The pivot */}
-      <section className="pivot" data-screen-label="Pivot">
-        <div className="wrap">
-          <p className="kicker" data-reveal>The thesis</p>
-          <h2 className="pivot__headline" data-reveal>
-            Technology will change.
-            <br />
-            Principles endure.
-          </h2>
-          <p className="pivot__body" data-reveal>
-            The AI &amp; Ethics Initiative explores principles that can guide how we use
-            artificial intelligence, regardless of what tools come next.
-          </p>
-          <a href="#our-principles" className="pivot__cta" onClick={scrollToPrinciples} data-reveal>
-            Explore our principles <span aria-hidden="true">&darr;</span>
-          </a>
-        </div>
-      </section>
+      {/* Mission — lands immediately after "You do.": the AI → human
+          agency pivot leads straight into the initiative's Christlike,
+          BYU-centered identity before the pivot/Principles sections. Pinned
+          in place (see Mission above), plain white. */}
+      <Mission />
 
-      {/* Section 3 — Principles: the centerpiece of the page */}
+      {/* Crossfade — carries the page from Mission's white into the navy
+          Pivot/Principles/Practice share, with no text on screen while the
+          color itself is changing (see CrossfadeToNavy above). */}
+      <CrossfadeToNavy />
+
+      {/* Section 2 — The pivot: plain, static navy. */}
+      <Pivot onExploreClick={scrollToPrinciples} />
+
+      {/* Section 3 — Principles: the centerpiece of the page. No heading of
+          its own — the pivot's "Explore our principles" is the lead-in,
+          so the grid starts right underneath it. */}
       <section className="principles-framework" id="our-principles" data-screen-label="Principles">
         <div className="wrap">
-          <div className="principles-framework__head">
-            <p className="kicker" data-reveal>Our principles</p>
-            <h2 className="principles-framework__lead" data-reveal>
-              A framework for navigating
-              <br />
-              artificial intelligence.
-            </h2>
-          </div>
-          <ol className="principles-list reveal-stagger">
+          <div className="principles-grid reveal-stagger">
             {PRINCIPLES.map((p) => (
-              <li className="principles-list__row" key={p.id} data-reveal>
-                <Link to={`/principles#${p.id}`} className="principles-list__item">
-                  <span className="principles-list__num">{p.num}</span>
-                  <span className="principles-list__body">
-                    <span className="principles-list__title">{p.title}</span>
-                    <span className="principles-list__tag">
-                      <span>{p.tag}</span>
-                    </span>
-                  </span>
-                  <span className="principles-list__arrow" aria-hidden="true">&rarr;</span>
-                </Link>
-              </li>
+              <Link to={`/principles#${p.id}`} className="principles-tile" key={p.id} data-reveal>
+                <span className="principles-tile__num">{p.num}</span>
+                <span className="principles-tile__title">{p.title}</span>
+                <span className="principles-tile__tag">{p.tag}</span>
+              </Link>
             ))}
-          </ol>
+          </div>
         </div>
       </section>
 
-      {/* Section 4 — Mission: AI → human agency → Principles → Christlike leadership */}
-      <section className="mission-band" data-screen-label="Mission">
-        <div className="wrap">
-          <p className="kicker" data-reveal>Our mission</p>
-          <h2 className="mission-band__headline" data-reveal>
-            Developing Christlike leaders in an age of artificial intelligence.
-          </h2>
-          <p className="mission-band__statement" data-reveal>
-            Our mission is to develop Christlike leaders who treat artificial intelligence as a{' '}
-            <Link to="/principles#p1">stewardship</Link> &mdash; harnessing it ethically for
-            people, communities, and the world.
-          </p>
-        </div>
-      </section>
-
-      {/* Section 5 — Put the Principles into practice */}
+      {/* Section 4 — Put the Principles into practice */}
       <section className="practice" data-screen-label="Practice">
         <div className="wrap">
           <div className="practice__head">
@@ -193,65 +262,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 6 — Reflective break */}
+      {/* Section 5 — Reflective break */}
       <section className="reflect" data-screen-label="Reflective break">
         <div className="wrap reveal-stagger">
           <p className="reflect__line" data-reveal>AI can help you do more.</p>
           <p className="reflect__line reflect__line--pause" data-reveal>
             But who is it helping you become?
           </p>
-          <p className="reflect__line reflect__line--answer" data-reveal>
-            That&rsquo;s the question we&rsquo;re interested in.
-          </p>
         </div>
       </section>
 
-      {/* Section 7 — From the Initiative */}
-      <section className="activity" data-screen-label="From the Initiative">
-        <div className="wrap">
-          <div className="activity__head">
-            <p className="kicker" data-reveal>From the initiative</p>
-            <h2 data-reveal>Currently</h2>
-          </div>
-          <div className="activity-grid reveal-stagger">
-            <article className="activity-item" data-reveal>
-              <span className="activity-item__eyebrow">Upcoming event</span>
-              <h3>
-                <Link to={`/events/${nextEvent.slug}`}>{nextEvent.title}</Link>
-              </h3>
-              <p>
-                {eventLongDate(nextEvent.date)} &middot; {nextEvent.place}
-              </p>
-            </article>
-            <article className="activity-item" data-reveal>
-              <span className="activity-item__eyebrow">From the newsletter</span>
-              <h3>
-                <Link to="/newsletter">{recentIssue.title}</Link>
-              </h3>
-              <p>{recentIssue.summary}</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 8 — Final CTA: return to the thesis, not a generic sign-off */}
-      <section className="final-cta" data-screen-label="Final CTA">
-        <div className="wrap">
-          <p className="final-cta__statement" data-reveal>
-            The future of AI isn&rsquo;t only about what technology can do.
-            <br />
-            It&rsquo;s about what we choose to do with it.
-          </p>
-          <Link className="btn btn--accent final-cta__btn" to="/principles" data-reveal>
-            Explore the Principles<span className="arrow">&rarr;</span>
-          </Link>
-          <p className="final-cta__secondary" data-reveal>
-            <Link className="link-more" to="/news#newsletter">
-              Get the newsletter<span className="arrow">&rarr;</span>
-            </Link>
-          </p>
-        </div>
-      </section>
     </>
   )
 }

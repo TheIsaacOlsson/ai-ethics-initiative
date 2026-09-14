@@ -1,6 +1,9 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 
-const FONT = '"IBM Plex Sans", sans-serif'
+// Matches --font-display (the site's big-header serif) rather than a
+// hardcoded sans, so the nav wordmark reads as the same typeface as
+// every headline instead of a separate "UI label" font.
+const FONT = '"Newsreader", Georgia, "Times New Roman", serif'
 const FONT_SIZE = 20
 const GAP = 8
 

@@ -79,10 +79,16 @@ export default function Layout() {
       // Checks every dark band for overlap with the nav strip itself
       // (not just the first one in the document) — the homepage has
       // several navy sections spaced down the page (the opening, the
-      // mission band, the reflective break, the final CTA), any of which
+      // pivot/principles/practice run, the reflective break), any of which
       // can be sitting directly under the nav at a given scroll position.
+      // .mission-band is plain white and deliberately excluded.
+      // .cinema-finale-dark-zone and .crossfade-to-navy-dark-zone only
+      // exist in the DOM while their respective pinned crossfades (see
+      // Home.jsx) are mostly navy, so nav text switches partway through
+      // each fade rather than staying one color into the opposite
+      // background.
       const darkEls = document.querySelectorAll(
-        '.phead:not(.phead--paper), .home-open, .mission, .mission-band, .reflect, .final-cta',
+        '.phead:not(.phead--paper), .home-open, .cinema-finale-dark-zone, .crossfade-to-navy-dark-zone, .mission, .pivot, .principles-framework, .practice, .reflect',
       )
       const isDark = Array.from(darkEls).some((el) => {
         const r = el.getBoundingClientRect()
@@ -198,7 +204,7 @@ export default function Layout() {
           </div>
         </div>
         <div className="foot__band">
-          <div className="foot__wordmark">AI Ethics Initiative</div>
+          <div className="foot__wordmark">BYU Marriott AI &amp; Ethics Initiative</div>
           <p className="foot__fine">
             &copy; {new Date().getFullYear()} AI Ethics Initiative &nbsp;|&nbsp; <a href="#">Privacy Notice</a>{' '}
             &nbsp;&middot;&nbsp; <a href="#">Accessibility</a>

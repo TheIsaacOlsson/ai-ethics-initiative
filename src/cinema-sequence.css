@@ -1,9 +1,9 @@
 /* =========================================================================
-   Cinematic opening — four short pinned statements building toward an
-   isolated "YOU DO.", then a soft gradient hands off into the white page
-   below. Tightened from an earlier, much longer version of this sequence:
-   fewer beats, shorter pins (130vh instead of 200+), no background-color
-   crossfades to compute — this is meant to move fast, not linger.
+   Cinematic opening — four short pinned statements, then a pinned
+   crossfade into an isolated "You do.". Tightened from an earlier, much
+   longer version of this sequence: fewer beats, shorter pins (130vh
+   instead of 200+) — this is meant to move fast, not linger, except for
+   the one deliberate held moment at the end.
 
    .home-open is a single-purpose marker (no styling of its own attached
    elsewhere) that Layout.jsx's nav watches to decide when to render nav
@@ -64,50 +64,68 @@
   transform: translateY(0);
 }
 
-/* ---- Finale: "YOU DO." ------------------------------------------------
-   Not pinned — a plain full-viewport section, flat white. A hard color
-   cut right at the boundary (rather than a gradient handoff) reads as
-   more of a jolt here, which suits the moment — and it keeps the nav's
-   dark/light detection unambiguous, since .home-open's boundary then
-   lines up exactly with where the background actually stops being navy.
-   The statement fades and settles in once, via the same one-shot
-   useInView reveal used everywhere else on the page. */
-.cinema-finale {
-  background: var(--paper);
-  min-height: 100vh;
+/* ---- Finale: "You do." -------------------------------------------------
+   A single pinned, sticky viewport rather than a section that scrolls
+   past: Home.jsx tracks scroll position through this pin and drives two
+   plain opacity values from it — the navy background fades completely to
+   white first, and only once it's fully white does "You do." fade in on
+   that same spot. The pin is taller than one viewport (see Home.jsx) so
+   there's a hold afterward before it releases into the pivot section —
+   that extra height is what gives the moment room to sit, rather than a
+   timed animation or an intercepted scroll gesture.
+
+   No CSS transitions here on purpose — both opacities track scroll
+   position directly via inline style (same reasoning as the site's other
+   scroll-scrubbed overlays): a timed transition would lag behind the
+   actual scroll instead of moving with it.
+
+   .cinema-finale-dark-zone only exists in the DOM while the background is
+   still mostly navy (see Home.jsx) — Layout.jsx's nav watches it, the
+   same way it watches .home-open, to know when nav text should render
+   light-on-dark. */
+.cinema-finale-pin {
+  position: relative;
+}
+
+.cinema-finale-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background: var(--navy);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(64px, 14vh, 160px) 24px;
+  overflow: hidden;
+}
+
+.cinema-finale-fade {
+  position: absolute;
+  inset: 0;
+  background: var(--paper);
+  pointer-events: none;
+}
+
+.cinema-finale-dark-zone {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 .cinema-finale__statement {
+  position: relative;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(64px, 15vw, 200px);
+  font-size: clamp(44px, 9vw, 120px);
   line-height: 0.96;
   letter-spacing: -0.01em;
   color: var(--navy);
   text-align: center;
   margin: 0;
-  opacity: 0;
-  transform: translateY(24px) scale(0.96);
-  transition: opacity 1s cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 1s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-.cinema-finale__statement.revealed {
-  opacity: 1;
-  transform: none;
+  padding: 0 24px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cinema-word,
-  .cinema-finale__statement {
+  .cinema-word {
     transition: none;
-  }
-  .cinema-finale__statement {
-    opacity: 1;
-    transform: none;
   }
 }

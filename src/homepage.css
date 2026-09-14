@@ -7,11 +7,48 @@
    centerpiece of the page — everything else is deliberately quieter.
    ========================================================================= */
 
+/* ---- Crossfade: white → navy, right after Mission -----------------------
+   Same technique as the finale's crossfade in cinema-sequence.css (a
+   pinned sticky viewport with a scroll-driven overlay opacity — see
+   Home.jsx's CrossfadeToNavy), just the reverse direction and with no
+   text of its own: the color changes while the screen is blank, so Pivot
+   right after appears already on solid navy. .crossfade-to-navy-dark-zone
+   only exists in the DOM once that fade is mostly complete — Layout.jsx
+   watches it the same way it watches .cinema-finale-dark-zone. */
+.crossfade-to-navy-pin {
+  position: relative;
+}
+.crossfade-to-navy-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background: var(--paper);
+  overflow: hidden;
+}
+.crossfade-to-navy-fade {
+  position: absolute;
+  inset: 0;
+  background: var(--navy);
+  pointer-events: none;
+}
+.crossfade-to-navy-dark-zone {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
 /* ---- Section 2: The Pivot ---------------------------------------------- */
 .pivot {
-  padding-block: clamp(96px, 16vw, 200px);
+  background: var(--navy);
+  color: #fff;
+  /* Bottom padding is deliberately tighter than the top — "Explore our
+     principles" is the lead-in straight into the Principles grid right
+     below it (that section has no heading of its own), not a natural
+     full-section break. */
+  padding-block: clamp(80px, 12vw, 160px) clamp(48px, 8vw, 96px);
   text-align: center;
 }
+.pivot .kicker { color: rgba(255, 255, 255, 0.65); }
 
 .pivot__headline {
   font-size: clamp(34px, 6.4vw, 76px);
@@ -19,10 +56,11 @@
   line-height: 1.12;
   max-width: 18ch;
   margin: 18px auto 0;
+  color: #fff;
 }
 
 .pivot__body {
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.72);
   font-size: clamp(17px, 1.9vw, 20px);
   line-height: 1.6;
   max-width: 52ch;
@@ -38,168 +76,161 @@
   font-size: 14px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--accent-ink);
+  color: #fff;
 }
 .pivot__cta:hover { text-decoration: none; }
 .pivot__cta span { display: inline-block; transition: transform 0.2s ease; }
 .pivot__cta:hover span { transform: translateY(3px); }
 
-/* ---- Section 3: Principles (centerpiece) ------------------------------- */
+/* ---- Section 3: Principles (centerpiece) --------------------------------
+   Shares the navy background running from the Pivot through Practice —
+   see the crossfade above and .practice below. */
 .principles-framework {
-  padding-block: clamp(64px, 10vw, 120px) clamp(96px, 14vw, 180px);
+  background: var(--navy);
+  padding-block: clamp(24px, 4vw, 48px) clamp(96px, 14vw, 180px);
   scroll-margin-top: 90px;
 }
 
-.principles-framework__head {
-  text-align: center;
-  max-width: 46ch;
-  margin: 0 auto clamp(56px, 8vw, 96px);
-}
-
-.principles-framework__lead {
-  font-size: clamp(30px, 4.6vw, 48px);
-  font-weight: 500;
-  line-height: 1.2;
-  margin-top: 16px;
-}
-
-.principles-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--line);
-}
-
-.principles-list__row {
-  border-bottom: 1px solid var(--line);
-}
-
-.principles-list__item {
+/* Grid of clickable rectangles, one per Principle. The 1px gap + tinted
+   background (rather than a border on each tile) is what draws the thin
+   dividing lines between them — same hairline language as the rest of the
+   site, just applied to a grid instead of rows. */
+.principles-grid {
   display: grid;
-  grid-template-columns: 64px 1fr auto;
-  align-items: baseline;
-  gap: clamp(16px, 3vw, 40px);
-  padding: clamp(22px, 3.4vw, 34px) 4px;
-  color: var(--ink);
-  transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
-}
-.principles-list__item:hover,
-.principles-list__item:focus-visible {
-  text-decoration: none;
-  padding-left: 16px;
-  background: var(--accent-wash);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.2);
 }
 
-.principles-list__num {
+.principles-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  aspect-ratio: 1 / 1;
+  padding: clamp(20px, 3vw, 32px);
+  background: var(--navy);
+  color: #fff;
+  transition: background 0.3s ease;
+}
+.principles-tile:hover,
+.principles-tile:focus-visible {
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.principles-tile__num {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(18px, 2vw, 22px);
-  color: var(--faint);
+  font-size: clamp(16px, 1.8vw, 20px);
+  color: rgba(255, 255, 255, 0.45);
   transition: color 0.3s ease;
 }
-.principles-list__item:hover .principles-list__num,
-.principles-list__item:focus-visible .principles-list__num {
-  color: var(--accent);
+.principles-tile:hover .principles-tile__num,
+.principles-tile:focus-visible .principles-tile__num {
+  color: #fff;
 }
 
-.principles-list__body { min-width: 0; }
-
-.principles-list__title {
-  display: block;
+.principles-tile__title {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(30px, 5vw, 52px);
-  line-height: 1.1;
+  font-size: clamp(24px, 3.2vw, 36px);
+  line-height: 1.12;
 }
 
-.principles-list__tag {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.36s cubic-bezier(0.4, 0, 0.2, 1);
-  color: var(--muted);
-  font-size: 15px;
-}
-.principles-list__tag > span {
-  display: block;
-  overflow: hidden;
-  padding-top: 0;
-}
-.principles-list__item:hover .principles-list__tag,
-.principles-list__item:focus-visible .principles-list__tag {
-  grid-template-rows: 1fr;
-}
-.principles-list__item:hover .principles-list__tag > span,
-.principles-list__item:focus-visible .principles-list__tag > span {
-  padding-top: 8px;
-}
-
-.principles-list__arrow {
-  font-size: 22px;
-  color: var(--accent);
+.principles-tile__tag {
+  font-size: 14px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.65);
   opacity: 0;
-  transform: translateX(-6px);
+  transform: translateY(6px);
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
-.principles-list__item:hover .principles-list__arrow,
-.principles-list__item:focus-visible .principles-list__arrow {
+.principles-tile:hover .principles-tile__tag,
+.principles-tile:focus-visible .principles-tile__tag {
   opacity: 1;
   transform: none;
 }
 
-@media (max-width: 640px) {
-  .principles-list__item {
-    grid-template-columns: 40px 1fr;
-    grid-template-areas: 'num arrow' 'body body';
-  }
-  .principles-list__arrow { display: none; }
+@media (max-width: 780px) {
+  .principles-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .principles-grid { grid-template-columns: 1fr; }
+  .principles-tile { aspect-ratio: auto; min-height: 160px; }
 }
 
-/* ---- Section 4: Mission ------------------------------------------------- */
+/* ---- Mission — right after "You do." ------------------------------------
+   Pinned/sticky, same mechanic as the opening beats (see .cinema-pin /
+   .cinema-sticky in cinema-sequence.css): the tall .mission-band__pin
+   scrolls underneath while .mission-band__sticky holds the statement
+   centered in the viewport, so it reads as a deliberate held beat rather
+   than a section that just scrolls past. Plain white — the white → navy
+   crossfade now happens on the Pivot below instead (see .pivot-fade). */
 .mission-band {
+  background: var(--paper);
+  color: var(--ink);
+  text-align: center;
+}
+.mission-band__pin {
+  position: relative;
+  height: 150vh;
+}
+.mission-band__sticky {
+  position: sticky;
+  top: 79px;
+  height: calc(100vh - 79px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.mission-band__headline {
+  font-size: clamp(34px, 6.4vw, 76px);
+  font-weight: 500;
+  line-height: 1.12;
+  color: var(--ink);
+  max-width: 20ch;
+  margin: 0 auto;
+}
+.mission-band__statement {
+  font-size: clamp(17px, 1.9vw, 20px);
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 44ch;
+  margin: 20px auto 0;
+}
+.mission-band__statement a {
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-decoration-color: rgba(0, 71, 186, 0.4);
+  text-underline-offset: 3px;
+}
+.mission-band__statement a:hover { text-decoration-color: currentColor; }
+
+/* ---- Section 5: Put the Principles into practice ------------------------
+   Still navy — the last section in the Pivot/Principles/Practice run
+   before it flows straight into the (already navy) Reflective break, with
+   no further crossfade needed since the colors already match there. */
+.practice {
   background: var(--navy);
   color: #fff;
   padding-block: clamp(80px, 12vw, 160px);
-  text-align: center;
 }
-.mission-band .kicker { color: rgba(255, 255, 255, 0.65); }
-.mission-band__headline {
-  font-size: clamp(30px, 4.6vw, 50px);
-  font-weight: 500;
-  line-height: 1.2;
-  max-width: 20ch;
-  margin: 18px auto 0;
-  color: #fff;
-}
-.mission-band__statement {
-  font-size: clamp(18px, 2vw, 21px);
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.82);
-  max-width: 56ch;
-  margin: 32px auto 0;
-}
-.mission-band__statement a {
-  color: #fff;
-  text-decoration: underline;
-  text-decoration-color: rgba(255, 255, 255, 0.45);
-  text-underline-offset: 3px;
-}
-.mission-band__statement a:hover { text-decoration-color: #fff; }
-
-/* ---- Section 5: Put the Principles into practice ------------------------ */
-.practice { padding-block: clamp(80px, 12vw, 160px); }
-.practice__head { max-width: 56ch; margin-bottom: clamp(48px, 6vw, 72px); }
-.practice__head h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 500; margin-top: 12px; }
+.practice .kicker { color: rgba(255, 255, 255, 0.65); }
+.practice__head { max-width: 56ch; margin: 0 auto clamp(48px, 6vw, 72px); text-align: center; }
+.practice__head h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 500; margin-top: 12px; color: #fff; }
 
 .practice-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .practice-block {
   padding: clamp(28px, 3vw, 40px) clamp(20px, 3vw, 36px);
-  border-left: 1px solid var(--line);
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
 }
 .practice-block:first-child { border-left: 0; }
 
@@ -208,26 +239,29 @@
   font-size: 12.5px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--accent-ink);
+  color: rgba(255, 255, 255, 0.65);
   margin: 0 0 16px;
 }
 .practice-block h3 {
   font-size: clamp(21px, 2.4vw, 26px);
   font-weight: 500;
   margin: 0 0 12px;
+  color: #fff;
 }
 .practice-block p {
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.72);
   font-size: 15.5px;
   line-height: 1.6;
   margin: 0 0 20px;
 }
+.practice-block .link-more { color: rgba(255, 255, 255, 0.9); }
+.practice-block .link-more:hover { color: #fff; }
 
 @media (max-width: 780px) {
   .practice-grid { grid-template-columns: 1fr; border-top: 0; }
   .practice-block {
     border-left: 0;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
     padding-inline: 0;
   }
   .practice-block:first-child { border-top: 0; }
@@ -251,66 +285,4 @@
 }
 .reflect__line + .reflect__line { margin-top: 22px; }
 .reflect__line--pause { font-style: italic; color: #fff; }
-.reflect__line--answer {
-  font-family: var(--font-body);
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.6);
-  margin-top: 40px;
-}
 
-/* ---- Section 7: From the Initiative -------------------------------------- */
-.activity { padding-block: clamp(72px, 10vw, 140px); }
-.activity__head { margin-bottom: clamp(40px, 5vw, 56px); }
-.activity__head h2 { font-size: clamp(26px, 3.6vw, 36px); font-weight: 500; margin-top: 12px; }
-
-.activity-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(32px, 5vw, 64px);
-}
-
-.activity-item { border-top: 2px solid var(--line-2); padding-top: 20px; }
-.activity-item__eyebrow {
-  display: block;
-  font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent-ink);
-  margin-bottom: 10px;
-}
-.activity-item h3 {
-  font-size: clamp(19px, 2.2vw, 23px);
-  font-weight: 500;
-  margin: 0 0 8px;
-}
-.activity-item h3 a { color: var(--ink); }
-.activity-item p { color: var(--muted); font-size: 15px; line-height: 1.55; margin: 0; }
-
-@media (max-width: 700px) {
-  .activity-grid { grid-template-columns: 1fr; }
-}
-
-/* ---- Section 8: Final CTA -------------------------------------------------- */
-.final-cta {
-  background: var(--navy);
-  color: #fff;
-  padding-block: clamp(96px, 14vw, 180px);
-  text-align: center;
-}
-.final-cta__statement {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(28px, 4.4vw, 46px);
-  line-height: 1.28;
-  max-width: 24ch;
-  margin: 0 auto;
-  color: #fff;
-}
-.final-cta__btn { margin-top: 40px; }
-.final-cta__secondary { margin-top: 28px; }
-.final-cta__secondary .link-more { color: rgba(255, 255, 255, 0.82); }
-.final-cta__secondary .link-more:hover { color: #fff; }

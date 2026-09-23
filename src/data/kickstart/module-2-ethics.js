@@ -141,7 +141,7 @@ export default {
       blocks: [
         {
           type: 'text',
-          text: 'This is the payoff of the whole module. Below are the five principles and their Pause questions again — write one honest sentence per principle, in your own words. You’ll come back to this in Module 5.',
+          text: 'This is the payoff of the whole module. Below are the five principles and their Pause questions again — write one honest sentence per principle, in your own words.',
         },
         { type: 'widget', component: 'ConstitutionBuilder' },
       ],

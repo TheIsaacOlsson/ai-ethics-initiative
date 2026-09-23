@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import CinemaWords from '../components/cinema/CinemaWords.jsx'
 import useInView from '../hooks/useInView.js'
-import { PRINCIPLES } from '../data/principles.js'
 import '../cinema-sequence.css'
 import '../homepage.css'
 
@@ -77,7 +76,7 @@ function Finale() {
         {bgOpacity < 0.6 && <div className="cinema-finale-dark-zone" aria-hidden="true" />}
         <div className="cinema-finale-fade" style={{ opacity: bgOpacity }} aria-hidden="true" />
         <p className="cinema-finale__statement" style={{ opacity: textOpacity }}>
-          You do.
+          We do.
         </p>
       </div>
     </div>
@@ -112,35 +111,76 @@ function Mission() {
 // is a plain CSS color transition (background + text, eased over ~0.9s)
 // triggered once by useInView when the section scrolls into view, rather
 // than a hard cut or a scroll-scrubbed fade.
-function Pivot({ onExploreClick }) {
+function Pivot() {
   const [ref, inView] = useInView({ threshold: 0.3 })
   return (
     <section className={`pivot${inView ? ' pivot--in' : ''}`} ref={ref} data-screen-label="Pivot">
       <div className="wrap">
-        <p className="kicker" data-reveal>The thesis</p>
+        <p className="kicker" data-reveal>Our principles</p>
         <h2 className="pivot__headline" data-reveal>
-          Technology will change.
-          <br />
-          Principles endure.
+          Our Principles for Ethical AI Use
         </h2>
         <p className="pivot__body" data-reveal>
           The AI &amp; Ethics Initiative explores principles that can guide how we use
           artificial intelligence, regardless of what tools come next.
         </p>
-        <a href="#our-principles" className="pivot__cta" onClick={onExploreClick} data-reveal>
-          Explore our principles <span aria-hidden="true">&darr;</span>
-        </a>
+        <Link to="/principles" className="pivot__cta" data-reveal>
+          Explore our principles <span aria-hidden="true">&rarr;</span>
+        </Link>
       </div>
     </section>
   )
 }
 
-export default function Home() {
-  const scrollToPrinciples = (e) => {
-    e.preventDefault()
-    document.getElementById('our-principles')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
+// "Put the Principles into practice" — three circles that hold just a
+// label until hovered (or focused, for keyboard users), when a panel
+// slides up over the circle with a fuller description and a link.
+const PRACTICE_CIRCLES = [
+  {
+    key: 'learn',
+    label: 'Learn',
+    title: 'AI Kickstart',
+    text: 'A hands-on introduction to using AI tools thoughtfully, built around the Principles.',
+    href: '/kickstart',
+  },
+  {
+    key: 'engage',
+    label: 'Engage',
+    title: 'Events & Conversations',
+    text: 'Workshops, panels, and forums where the Principles meet real questions.',
+    href: '/get-involved',
+  },
+  {
+    key: 'explore',
+    label: 'Explore',
+    title: 'Ideas & Resources',
+    text: 'Curated reading and updates on AI ethics, delivered weekly.',
+    href: '/news',
+  },
+]
 
+// A circle that reads as just an arrow until hovered/focused, when it
+// stretches into a pill and a second "panel" slides out of it with the
+// fuller description — the arrow rotates from pointing in (down-left) to
+// pointing out (right) to sell the same motion.
+function PracticeCircle({ item }) {
+  return (
+    <Link className="practice-circle" to={item.href} data-reveal>
+      <span className="practice-circle__pill">
+        <span className="practice-circle__arrow" aria-hidden="true">
+          &rarr;
+        </span>
+        <span className="practice-circle__detail">
+          <span className="practice-circle__detail-title">{item.title}</span>
+          <span className="practice-circle__detail-text">{item.text}</span>
+        </span>
+      </span>
+      <span className="practice-circle__label">{item.label}</span>
+    </Link>
+  )
+}
+
+export default function Home() {
   return (
     <>
       {/* Section 1 — Cinematic opening. .home-open is what tells Layout.jsx
@@ -164,24 +204,7 @@ export default function Home() {
 
       {/* Section 2 — The pivot: plain, static navy — white → navy is a
           hard cut right at this section boundary. */}
-      <Pivot onExploreClick={scrollToPrinciples} />
-
-      {/* Section 3 — Principles: the centerpiece of the page. No heading of
-          its own — the pivot's "Explore our principles" is the lead-in,
-          so the grid starts right underneath it. */}
-      <section className="principles-framework" id="our-principles" data-screen-label="Principles">
-        <div className="wrap">
-          <div className="principles-grid reveal-stagger">
-            {PRINCIPLES.map((p) => (
-              <Link to={`/principles#${p.id}`} className="principles-tile" key={p.id} data-reveal>
-                <span className="principles-tile__num">{p.num}</span>
-                <span className="principles-tile__title">{p.title}</span>
-                <span className="principles-tile__tag">{p.tag}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Pivot />
 
       {/* Section 4 — Put the Principles into practice */}
       <section className="practice" data-screen-label="Practice">
@@ -190,31 +213,10 @@ export default function Home() {
             <p className="kicker" data-reveal>In practice</p>
             <h2 data-reveal>Put the Principles into practice</h2>
           </div>
-          <div className="practice-grid reveal-stagger">
-            <article className="practice-block" data-reveal>
-              <p className="practice-block__eyebrow">Learn</p>
-              <h3>AI Kickstart</h3>
-              <p>A hands-on introduction to using AI tools thoughtfully, built around the Principles.</p>
-              <Link className="link-more" to="/kickstart">
-                Start learning<span className="arrow">&rarr;</span>
-              </Link>
-            </article>
-            <article className="practice-block" data-reveal>
-              <p className="practice-block__eyebrow">Engage</p>
-              <h3>Events &amp; Conversations</h3>
-              <p>Workshops, panels, and forums where the Principles meet real questions.</p>
-              <Link className="link-more" to="/get-involved">
-                See upcoming events<span className="arrow">&rarr;</span>
-              </Link>
-            </article>
-            <article className="practice-block" data-reveal>
-              <p className="practice-block__eyebrow">Explore</p>
-              <h3>Ideas &amp; Resources</h3>
-              <p>Curated reading and updates on AI ethics, delivered weekly.</p>
-              <Link className="link-more" to="/news">
-                Explore resources<span className="arrow">&rarr;</span>
-              </Link>
-            </article>
+          <div className="practice-circles reveal-stagger">
+            {PRACTICE_CIRCLES.map((item) => (
+              <PracticeCircle item={item} key={item.key} />
+            ))}
           </div>
         </div>
       </section>

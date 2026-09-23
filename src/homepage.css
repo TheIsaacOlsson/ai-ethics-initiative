@@ -69,7 +69,7 @@
 .pivot--in .pivot__cta { color: #fff; }
 .pivot__cta:hover { text-decoration: none; }
 .pivot__cta span { display: inline-block; transition: transform 0.2s ease; }
-.pivot__cta:hover span { transform: translateY(3px); }
+.pivot__cta:hover span { transform: translateX(4px); }
 
 @media (prefers-reduced-motion: reduce) {
   .pivot,
@@ -220,50 +220,132 @@
 .practice__head { max-width: 56ch; margin: 0 auto clamp(48px, 6vw, 72px); text-align: center; }
 .practice__head h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 500; margin-top: 12px; color: #fff; }
 
-.practice-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+.practice-circles {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(28px, 4vw, 40px);
+  /* Hovered pills grow past their own row and need to sit above the rows
+     below/after them rather than being clipped. */
+  padding-inline: 20px;
 }
 
-.practice-block {
-  padding: clamp(28px, 3vw, 40px) clamp(20px, 3vw, 36px);
-  border-left: 1px solid rgba(255, 255, 255, 0.2);
+.practice-circle {
+  --pill-size: clamp(150px, 15vw, 190px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-decoration: none;
+  position: relative;
 }
-.practice-block:first-child { border-left: 0; }
+.practice-circle:hover,
+.practice-circle:focus-visible {
+  z-index: 2;
+}
+.practice-circle:focus-visible { outline: none; }
 
-.practice-block__eyebrow {
-  font-weight: 700;
-  font-size: 12.5px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.65);
-  margin: 0 0 16px;
+/* The pill: a circle at rest, sized exactly to var(--pill-size) so
+   border-radius: 999px reads as a perfect circle. On hover its width
+   grows past its height, so the same radius reads as two rounded ends
+   joined by straight edges — no shape swap, just a width change. */
+.practice-circle__pill {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: var(--pill-size);
+  height: var(--pill-size);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+  transition: width 0.5s cubic-bezier(0.65, 0, 0.35, 1), background 0.4s ease,
+    border-color 0.4s ease, box-shadow 0.3s ease;
 }
-.practice-block h3 {
-  font-size: clamp(21px, 2.4vw, 26px);
-  font-weight: 500;
-  margin: 0 0 12px;
+.practice-circle:hover .practice-circle__pill,
+.practice-circle:focus-visible .practice-circle__pill {
+  width: calc(var(--pill-size) * 2.15);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+}
+
+.practice-circle__arrow {
+  flex: 0 0 var(--pill-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
   color: #fff;
+  transform: rotate(135deg);
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
 }
-.practice-block p {
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 15.5px;
-  line-height: 1.6;
-  margin: 0 0 20px;
+.practice-circle:hover .practice-circle__arrow,
+.practice-circle:focus-visible .practice-circle__arrow {
+  transform: rotate(0deg);
 }
-.practice-block .link-more { color: rgba(255, 255, 255, 0.9); }
-.practice-block .link-more:hover { color: #fff; }
 
-@media (max-width: 780px) {
-  .practice-grid { grid-template-columns: 1fr; border-top: 0; }
-  .practice-block {
-    border-left: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    padding-inline: 0;
+/* Hidden behind the arrow circle until the pill widens enough to show it
+   — a plain opacity/slide fade rather than trying to reveal an exact
+   pixel width, so it never looks clipped mid-transition. */
+.practice-circle__detail {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 18px clamp(16px, 2vw, 26px) 18px 4px;
+  opacity: 0;
+  transform: translateX(14px);
+  transition: opacity 0.3s ease 0.12s, transform 0.4s ease 0.12s;
+}
+.practice-circle:hover .practice-circle__detail,
+.practice-circle:focus-visible .practice-circle__detail {
+  opacity: 1;
+  transform: translateX(0);
+}
+.practice-circle__detail-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+.practice-circle__detail-text {
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.practice-circle__label {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2vw, 21px);
+  font-weight: 600;
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(255, 255, 255, 0.5);
+  transition: text-decoration-color 0.3s ease;
+}
+.practice-circle:hover .practice-circle__label,
+.practice-circle:focus-visible .practice-circle__label {
+  text-decoration-color: #fff;
+}
+
+@media (max-width: 640px) {
+  /* No hover on touch — keep it a plain circle + label with no pill
+     expansion, since there's no way to reveal it before the tap navigates. */
+  .practice-circle__pill { width: var(--pill-size) !important; }
+  .practice-circle__detail { display: none; }
+  .practice-circle__arrow { transform: rotate(0deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .practice-circle__pill,
+  .practice-circle__arrow,
+  .practice-circle__detail {
+    transition: none;
   }
-  .practice-block:first-child { border-top: 0; }
 }
 
 /* ---- Section 6: Reflective break ----------------------------------------- */

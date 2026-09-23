@@ -6,15 +6,10 @@ import HarderThanItLooksToggle from './widgets/HarderThanItLooksToggle.jsx'
 import HallucinationSpotter from './widgets/HallucinationSpotter.jsx'
 import IntuitionQuiz from './widgets/IntuitionQuiz.jsx'
 import ConstitutionBuilder from './widgets/ConstitutionBuilder.jsx'
-import ToolPicker from './widgets/ToolPicker.jsx'
-import Checklist from './widgets/Checklist.jsx'
-import PromptCompare from './widgets/PromptCompare.jsx'
-import RolesExercise from './widgets/RolesExercise.jsx'
-import ContextWindowFill from './widgets/ContextWindowFill.jsx'
-import AgentLoopSimulator from './widgets/AgentLoopSimulator.jsx'
-import ReversibilitySort from './widgets/ReversibilitySort.jsx'
-import ProjectPlanner from './widgets/ProjectPlanner.jsx'
-import ConstitutionCheck from './widgets/ConstitutionCheck.jsx'
+import MisconceptionCards from './widgets/MisconceptionCards.jsx'
+import MythSpotter from './widgets/MythSpotter.jsx'
+import HowItWorksFlow from './widgets/HowItWorksFlow.jsx'
+import ProphetCounsel from './widgets/ProphetCounsel.jsx'
 
 // Widgets are looked up by name from step data, so the content files stay
 // plain data (no JSX) and new widgets just need one line added here.
@@ -24,15 +19,10 @@ const WIDGETS = {
   IntuitionQuiz,
   PrincipleTabs,
   ConstitutionBuilder,
-  ToolPicker,
-  Checklist,
-  PromptCompare,
-  RolesExercise,
-  ContextWindowFill,
-  AgentLoopSimulator,
-  ReversibilitySort,
-  ProjectPlanner,
-  ConstitutionCheck,
+  MisconceptionCards,
+  MythSpotter,
+  HowItWorksFlow,
+  ProphetCounsel,
 }
 
 function isExternal(href) {

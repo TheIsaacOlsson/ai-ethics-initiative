@@ -62,6 +62,50 @@ export const GONG_NOSE_MOMENT = {
     'At one point, Elder Gong asks his audience to put a finger on their nose — a literal, physical way of marking the difference between a human and an algorithm. It’s a small, funny, surprisingly memorable moment in an otherwise weighty talk.',
 }
 
+// A second, more recent Gong address — distinct from the Faith, Dignity
+// and Human Flourishing talk above — used in Module 1 as the course's
+// grounding before the deeper ethics treatment in Module 2. Quoted
+// directly, not paraphrased.
+export const GONG_BYU_CONFERENCE = {
+  source: 'Elder Gerrit W. Gong · "Becoming BYU in an Age of Artificial Intelligence" · BYU University Conference, August 24, 2026',
+  paragraphs: [
+    'Servant disciples of Jesus Christ will need persistence, resilience, creativity, expertise, integrity, every Christlike attribute.',
+    'Especially in an age where AI will reason better than many humans, a distinguishing characteristic of our BYU students will be who they are and how they live at all times and in all things and in all places.',
+    'BYU students will not define themselves by what AI is or isn’t, but by what we as children of God are uniquely meant to be and become.',
+    'At its core, a BYU education in the age of AI can help our students one, protect and promote human moral agency to become and do good. We can use AI',
+  ],
+  list: [
+    'To enhance individual effort and work,',
+    'Champion human dignity, value, and worth as intrinsic, innate, and divine,',
+    'Balance AI efficiencies and individual opportunity, and',
+    'Define and pursue the gift of possibility to promote human flourishing.',
+  ],
+  sourceUrl: 'https://speeches.byu.edu/talks/gerrit-w-gong/becoming-byu-in-an-age-of-artificial-intelligence/',
+  // This talk was delivered August 24, 2026; BYU Speeches had not yet
+  // posted an official transcript as of course-build time — check this
+  // text against the final published version once it's available.
+  verifyNote:
+    'This talk was delivered August 24, 2026. BYU Speeches has not yet posted the official transcript — this text will be checked against the final published version once it’s available.',
+}
+
+export const FURTHER_PROPHETIC_COUNSEL = [
+  {
+    title: 'Faith, Dignity, and Human Flourishing: Hearing God’s Voice in an Age of Artificial Intelligence',
+    meta: 'Elder Gerrit W. Gong · Watch on YouTube',
+    href: GONG_VIDEO_URL,
+  },
+  {
+    title: '"Things as They Really Are 2.0"',
+    meta: 'Elder David A. Bednar · Worldwide Devotional for Young Adults, November 3, 2024',
+    href: 'https://www.churchofjesuschrist.org/study/broadcasts/worldwide-devotional-for-young-adults/2024/11/13bednar?lang=eng',
+  },
+  {
+    title: '"Faith in Jesus Christ in the Information Age"',
+    meta: 'Elder Quentin L. Cook · BYU Speeches',
+    href: 'https://speeches.byu.edu/talks/quentin-l-cook/faith-in-jesus-christ-in-the-information-age/',
+  },
+]
+
 export const CASE_STUDIES = [
   {
     id: 'uber-av',

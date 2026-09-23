@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { modulesForDashboard } from '../data/kickstart/index.js'
+import ShowcaseSection from '../components/ShowcaseSection.jsx'
 import useKickstartProgress from '../hooks/useKickstartProgress.js'
 import '../kickstart.css'
 
@@ -67,14 +68,9 @@ export default function Kickstart() {
     <>
       <section className="ks-hero">
         <div className="wrap">
-          <p className="kicker">Your dashboard</p>
           <h1>Your lessons</h1>
           <p className="lead">
-            A guided, hands-on introduction to AI — five modules, work through them at your own pace.
-          </p>
-          <p className="ks-hero__note">
-            Modules 1 &amp; 2 need no account or sign-up — just this page. Module 3 is where you&rsquo;ll
-            create an AI account, if you don&rsquo;t have one already.
+            A guided, hands-on introduction to AI — two short modules, no account or sign-up needed. Work through them at your own pace.
           </p>
         </div>
       </section>
@@ -96,6 +92,16 @@ export default function Kickstart() {
             with the Initiative. Clearing your browser data will clear it too, so if you want to keep a copy
             somewhere safer, look for the export option once you get there.
           </p>
+        </div>
+      </section>
+
+      <section className="section" data-screen-label="Showcase">
+        <div className="wrap">
+          <div className="ks-section-label">
+            <h2>Ethical AI Showcase</h2>
+            <span className="ks-section-label__tag">Ideas from the community</span>
+          </div>
+          <ShowcaseSection />
         </div>
       </section>
     </>

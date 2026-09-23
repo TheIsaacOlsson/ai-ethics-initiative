@@ -11,6 +11,8 @@ import Newsletter from './pages/Newsletter.jsx'
 import NewsletterArchive from './pages/NewsletterArchive.jsx'
 import Kickstart from './pages/Kickstart.jsx'
 import KickstartModule from './pages/KickstartModule.jsx'
+import Professors from './pages/Professors.jsx'
+import Showcase from './pages/Showcase.jsx'
 
 function App() {
   useEffect(() => {
@@ -44,6 +46,8 @@ function App() {
           <Route path="newsletter" element={<Newsletter />} />
           <Route path="newsletter-archive" element={<NewsletterArchive />} />
           <Route path="kickstart" element={<Kickstart />} />
+          <Route path="professors" element={<Professors />} />
+          <Route path="showcase" element={<Showcase />} />
           <Route path="kickstart/:moduleId" element={<KickstartModule />} />
         </Route>
       </Routes>

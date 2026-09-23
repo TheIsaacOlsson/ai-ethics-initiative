@@ -28,6 +28,34 @@ export default {
       ],
     },
     {
+      id: 'misconceptions',
+      label: 'Common myths',
+      title: 'Most misuse of AI comes from treating it like something it isn’t',
+      blocks: [
+        {
+          type: 'text',
+          text: 'Here are three examples of how a misunderstanding of how AI works can lead to mistakes you could’ve easily avoided. Tap each card to see why.',
+        },
+        { type: 'widget', component: 'MisconceptionCards' },
+        {
+          type: 'text',
+          text: 'AI is a technology that can enable seriously good work — these three myths just tend to get in the way of it.',
+        },
+      ],
+    },
+    {
+      id: 'spot-the-myth',
+      label: 'Spot the myth',
+      title: 'Spot the myth',
+      blocks: [
+        {
+          type: 'text',
+          text: 'Five harder statements about verifying what AI tells you. Decide if each is true or a myth, then see why.',
+        },
+        { type: 'widget', component: 'MythSpotter' },
+      ],
+    },
+    {
       id: 'easy-hard-paradox',
       label: 'The easy/hard paradox',
       title: 'Why "smart" tasks are often the easy ones',
@@ -50,15 +78,12 @@ export default {
       blocks: [
         {
           type: 'text',
-          text: 'When you ask a chatbot a question, it isn’t searching a database for "the answer." It’s predicting the most likely next word, then the next, then the next — one token at a time — based on patterns it picked up from an enormous amount of text during training.',
+          text: 'When you ask a chatbot a question, it isn’t searching a database for "the answer." It’s predicting the most likely next word, then the next, then the next — one token at a time — based on patterns it picked up from an enormous amount of text during training. Click through the four stages below. No jargon required.',
         },
+        { type: 'widget', component: 'HowItWorksFlow' },
         {
           type: 'text',
-          text: 'That single fact explains a lot of what feels weird about using AI. A few things worth knowing going in:',
-        },
-        {
-          type: 'text',
-          text: '• It doesn’t remember you between separate conversations, unless the tool has a specific memory feature turned on.\n• It can be confidently wrong — fluent, well-formatted, and incorrect, all at once.\n• The more relevant context you give it, the better its predictions get. Vague input gets vague (or made-up) output.\n• Its knowledge has a cutoff date. It was trained on data up to some point in time and doesn’t automatically know what’s happened since — unless it’s specifically searching the web for you.',
+          text: 'A few things worth knowing going in: it doesn’t remember you between separate conversations, unless the tool has a specific memory feature turned on. It can be confidently wrong — fluent, well-formatted, and incorrect, all at once. And its knowledge has a cutoff date — it doesn’t automatically know what’s happened since, unless it’s specifically searching the web for you.',
         },
       ],
     },
@@ -83,6 +108,18 @@ export default {
       ],
     },
     {
+      id: 'prophet-counsel',
+      label: 'A prophet’s counsel',
+      title: 'Words from a prophet’s counsel',
+      blocks: [
+        {
+          type: 'text',
+          text: 'Before we move to the ethics of using AI in Module 2 — here’s where this course grounds itself.',
+        },
+        { type: 'widget', component: 'ProphetCounsel' },
+      ],
+    },
+    {
       id: 'landscape',
       label: 'The landscape',
       title: 'Which tool is which',
@@ -97,7 +134,7 @@ export default {
         },
         {
           type: 'text',
-          text: 'Our advice: pick one and actually learn it, rather than lightly poking at several. You’ll get further with one tool you know well than three you’ve only skimmed. Module 3 will help you choose.',
+          text: 'Our advice: pick one and actually learn it, rather than lightly poking at several. You’ll get further with one tool you know well than three you’ve only skimmed.',
         },
       ],
     },

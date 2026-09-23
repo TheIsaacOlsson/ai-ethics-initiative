@@ -97,7 +97,7 @@ function Mission() {
               Join us as we become Christlike leaders in an age of artificial intelligence
             </h2>
             <p className="mission-band__statement" data-reveal>
-              that treat AI as a <Link to="/principles#p1">stewardship</Link> &mdash; harnessing
+              that treat AI as a <Link to="/principles">stewardship</Link> &mdash; harnessing
               it ethically for people, communities, and the world.
             </p>
           </div>

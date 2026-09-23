@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+</style>
+</helmet>
+
+<div style="width:1120px; background:#F4F0E8; color:#2A251E; font-family:'Newsreader',Georgia,serif; padding:52px 0 40px; -webkit-font-smoothing:antialiased;">
+
+  <div style="padding:0 60px 18px;">
+    <div style="font-family:'Hanken Grotesk',sans-serif; font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:#0B6E6E; margin-bottom:16px;">A System View · Lifecycle Assessment</div>
+    <h1 style="font-size:46px; font-weight:500; letter-spacing:-0.02em; margin:0 0 12px;">The Environmental Footprint of AI</h1>
+    <p style="font-size:19px; line-height:1.55; color:#6E655A; max-width:62ch; margin:0;">What the AI industry draws <em>in</em> as inputs, and what it sends back <em>out</em> as impacts. Arrows point inward for resources consumed and outward for effects produced — a system, not a sequence.</p>
+  </div>
+
+  <svg viewBox="0 0 1120 915" width="1120" height="915" style="display:block;" font-family="'Hanken Grotesk',sans-serif">
+    <defs>
+      <marker id="hInk" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="13" markerHeight="13" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,1 L11,6 L1,11 Z" fill="#3A342B"></path></marker>
+      <marker id="hTaupe" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="12" markerHeight="12" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,1 L11,6 L1,11 Z" fill="#AEA493"></path></marker>
+      <marker id="hThin" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,1 L11,6 L1,11 Z" fill="#8A8071"></path></marker>
+      <marker id="hImpact" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="14" markerHeight="14" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,1 L11,6 L1,11 Z" fill="#BC4B26"></path></marker>
+      <marker id="hLoop" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="11" markerHeight="11" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,1 L11,6 L1,11 Z" fill="#13499B"></path></marker>
+    </defs>
+
+    <!-- ===== ARROWS (drawn first, under nodes) ===== -->
+    <!-- INPUTS: one-time / build (dashed, faded) -->
+    <line x1="239.8" y1="215.1" x2="423" y2="338" stroke="#AEA493" stroke-width="2.5" stroke-dasharray="7 6" stroke-linecap="round" marker-end="url(#hTaupe)"></line>
+    <line x1="181.9" y1="413.2" x2="395.2" y2="422.7" stroke="#AEA493" stroke-width="2.5" stroke-dasharray="7 6" stroke-linecap="round" marker-end="url(#hTaupe)"></line>
+    <line x1="242.3" y1="613.9" x2="417.2" y2="512.7" stroke="#AEA493" stroke-width="2.5" stroke-dasharray="7 6" stroke-linecap="round" marker-end="url(#hTaupe)"></line>
+
+    <!-- INPUTS: ongoing / running (solid, heavy) -->
+    <line x1="496.7" y1="165" x2="521.7" y2="269.5" stroke="#3A342B" stroke-width="6" stroke-linecap="round" marker-end="url(#hInk)"></line>
+    <line x1="671.1" y1="176" x2="626.1" y2="278.8" stroke="#3A342B" stroke-width="6" stroke-linecap="round" marker-end="url(#hInk)"></line>
+
+    <!-- INPUT: user queries (thin, small) -->
+    <line x1="378.2" y1="672.4" x2="461" y2="562" stroke="#8A8071" stroke-width="1.6" stroke-linecap="round" marker-end="url(#hThin)"></line>
+
+    <!-- IMPACTS: outward (terracotta) -->
+    <line x1="712.7" y1="367.5" x2="933.4" y2="277.3" stroke="#BC4B26" stroke-width="4.5" stroke-linecap="round" marker-end="url(#hImpact)"></line>
+    <line x1="724.3" y1="444.6" x2="938.3" y2="463.6" stroke="#BC4B26" stroke-width="4.5" stroke-linecap="round" marker-end="url(#hImpact)"></line>
+    <line x1="651.5" y1="567.3" x2="720.1" y2="670.1" stroke="#BC4B26" stroke-width="4.5" stroke-linecap="round" marker-end="url(#hImpact)"></line>
+
+    <!-- LOOP: hardware cycles out as e-waste and is replaced by new chips -->
+    <path d="M 724,734 C 590,712 430,812 330,846 C 190,894 56,832 50,628 C 46,548 66,470 98,452" fill="none" stroke="#13499B" stroke-width="2.5" stroke-dasharray="2 7" stroke-linecap="round" marker-end="url(#hLoop)"></path>
+    <text x="560" y="900" text-anchor="middle" fill="#13499B" font-size="13" font-weight="600" letter-spacing="0.04em">hardware cycles out &amp; is replaced → new chips</text>
+
+    <!-- ===== SYSTEM BOUNDARY ===== -->
+    <circle cx="560" cy="430" r="160" fill="none" stroke="#C9BFAE" stroke-width="1.5" stroke-dasharray="3 7"></circle>
+    
+
+    <!-- ===== HUB: the AI industry ===== -->
+    <circle cx="560" cy="430" r="98" fill="#FBF8F2" stroke="#3A342B" stroke-width="2"></circle>
+    <g transform="translate(560,394)" stroke="#3A342B" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <!-- long industrial building -->
+      <path d="M-44,30 L-44,2 L44,2 L44,30 Z"></path>
+      <!-- rooftop cooling units with fans -->
+      <rect x="-31" y="-14" width="23" height="16" rx="1.5"></rect>
+      <rect x="8" y="-14" width="23" height="16" rx="1.5"></rect>
+      <circle cx="-19.5" cy="-6" r="4.6"></circle>
+      <circle cx="19.5" cy="-6" r="4.6"></circle>
+      <line x1="-19.5" y1="-10.6" x2="-19.5" y2="-1.4"></line>
+      <line x1="-24.1" y1="-6" x2="-14.9" y2="-6"></line>
+      <line x1="19.5" y1="-10.6" x2="19.5" y2="-1.4"></line>
+      <line x1="14.9" y1="-6" x2="24.1" y2="-6"></line>
+      <!-- bay doors -->
+      <rect x="-36" y="14" width="17" height="16"></rect>
+      <rect x="-8.5" y="14" width="17" height="16"></rect>
+      <rect x="19" y="14" width="17" height="16"></rect>
+      <line x1="-36" y1="20" x2="-19" y2="20"></line>
+      <line x1="-8.5" y1="20" x2="8.5" y2="20"></line>
+      <line x1="19" y1="20" x2="36" y2="20"></line>
+      <circle cx="-39" cy="6" r="1.6" fill="#0B6E6E" stroke="none"></circle>
+      <circle cx="39" cy="6" r="1.6" fill="#0B6E6E" stroke="none"></circle>
+    </g>
+    <text x="560" y="452" text-anchor="middle" fill="#2A251E" font-size="17" font-weight="700" letter-spacing="0.01em">The AI Industry</text>
+    <text x="560" y="472" text-anchor="middle" fill="#8A8071" font-size="11.5" font-weight="500" letter-spacing="0.04em">all data centres, in aggregate</text>
+
+    <!-- ===== INPUT NODES ===== -->
+    <!-- Mineral extraction -->
+    <g transform="translate(180,175)">
+      <rect x="-34" y="-34" width="68" height="68" rx="15" fill="#FBF8F2" stroke="#D8CFBE" stroke-width="1.5"></rect>
+      <g stroke="#3A342B" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M-18,14 L-5,-11 L3,2 L9,-8 L18,14 Z"></path>
+        <path d="M-5,-11 L-1,-4 L-8,-1 Z" fill="#3A342B" stroke="none"></path>
+      </g>
+      <text x="0" y="-44" text-anchor="middle" font-size="14.5" font-weight="600" fill="#2A251E">Mineral extraction</text>
+      <text x="0" y="-62" text-anchor="middle" font-size="10.5" font-weight="600" letter-spacing="0.12em" fill="#AEA493">ONE-TIME · MINING</text>
+    </g>
+
+    <!-- Chip manufacturing -->
+    <g transform="translate(110,410)">
+      <rect x="-34" y="-34" width="68" height="68" rx="15" fill="#FBF8F2" stroke="#D8CFBE" stroke-width="1.5"></rect>
+      <g stroke="#3A342B" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="-11" y="-11" width="22" height="22" rx="3"></rect>
+        <rect x="-4" y="-4" width="8" height="8" rx="1"></rect>
+        <line x1="-7" y1="-11" x2="-7" y2="-16"></line>
+        <line x1="0" y1="-11" x2="0" y2="-16"></line>
+        <line x1="7" y1="-11" x2="7" y2="-16"></line>
+        <line x1="-7" y1="11" x2="-7" y2="16"></line>
+        <line x1="0" y1="11" x2="0" y2="16"></line>
+        <line x1="7" y1="11" x2="7" y2="16"></line>
+        <line x1="-11" y1="-7" x2="-16" y2="-7"></line>
+        <line x1="-11" y1="7" x2="-16" y2="7"></line>
+        <line x1="11" y1="-7" x2="16" y2="-7"></line>
+        <line x1="11" y1="7" x2="16" y2="7"></line>
+      </g>
+      <text x="0" y="-44" text-anchor="middle" font-size="14.5" font-weight="600" fill="#2A251E">Chip manufacturing</text>
+      <text x="0" y="-62" text-anchor="middle" font-size="10.5" font-weight="600" letter-spacing="0.12em" fill="#AEA493">ONE-TIME · FAB</text>
+    </g>
+
+    <!-- Construction + land -->
+    <g transform="translate(180,650)">
+      <rect x="-34" y="-34" width="68" height="68" rx="15" fill="#FBF8F2" stroke="#D8CFBE" stroke-width="1.5"></rect>
+      <g stroke="#3A342B" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="-18" y1="15" x2="18" y2="15"></line>
+        <rect x="-15" y="-1" width="13" height="16"></rect>
+        <line x1="8" y1="15" x2="8" y2="-16"></line>
+        <line x1="8" y1="-16" x2="17" y2="-16"></line>
+        <line x1="17" y1="-16" x2="17" y2="-9"></line>
+        <line x1="8" y1="-9" x2="17" y2="-16"></line>
+      </g>
+      <text x="0" y="54" text-anchor="middle" font-size="14.5" font-weight="600" fill="#2A251E">Construction + land</text>
+      <text x="0" y="73" text-anchor="middle" font-size="10.5" font-weight="600" letter-spacing="0.12em" fill="#AEA493">ONE-TIME · BUILD</text>
+    </g>
+
+    <!-- Power source (fuel mix) -->
+    <g transform="translate(480,95)">
+      <rect x="-34" y="-34" width="68" height="68" rx="15" fill="#FBF8F2" stroke="#3A342B" stroke-width="1.8"></rect>
+      <g stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M-17,15 L-14,-7 L-4,-7 L-1,15 Z" stroke="#3A342B" stroke-width="2.2"></path>
+        <path d="M-13,-7 C-15,-13 -9,-14 -11,-20" stroke="#8A8071" stroke-width="1.8"></path>
+        <path d="M-6,-7 C-8,-13 -2,-14 -4,-20" stroke="#8A8071" stroke-width="1.8"></path>
+        <circle cx="11" cy="-3" r="5.5" stroke="#BC4B26" stroke-width="2.2"></circle>
+        <g stroke="#BC4B26" stroke-width="2" stroke-linecap="round">
+          <line x1="11" y1="-13" x2="11" y2="-16.5"></line>
+          <line x1="11" y1="10" x2="11" y2="13.5"></line>
+          <line x1="20" y1="-3" x2="23.5" y2="-3"></line>
+          <line x1="18" y1="-10" x2="20.5" y2="-12.5"></line>
+          <line x1="18" y1="4" x2="20.5" y2="6.5"></line>
+        </g>
+      </g>
+      <text x="0" y="-44" text-anchor="middle" font-size="14.5" font-weight="600" fill="#2A251E">Power source</text>
+      <text x="0" y="-62" text-anchor="middle" font-size="10.5" font-weight="600" letter-spacing="0.1em" fill="#3A342B">ONGOING · FUEL MIX = KEY DRIVER</text>
+    </g>
+
+    <!-- Water for cooling -->
+    <g transform="translate(700,110)">
+      <rect x="-34" y="-34" width="68" height="68" rx="15" fill="#FBF8F2" stroke="#3A342B" stroke-width="1.8"></rect>
+      <g stroke="#0B6E6E" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M0,-16 C7,-4 12,3 12,8 A12,12 0 1 1 -12,8 C-12,3 -7,-4 0,-16 Z"></path>
+      </g>
+      <text x="0" y="-44" text-anchor="middle" font-size="14.5" font-weight="600" fill="#2A251E">Water for cooling</text>
+      <text x="0" y="-62" text-anchor="middle" font-size="10.5" font-weight="600" letter-spacing="0.12em" fill="#3A342B">ONGOING · COOLING</text>
+    </g>
+
+    <!-- User queries (thin, small) -->
+    <g transform="translate(335,730)">
+      <rect x="-24" y="-24" width="48" height="48" rx="11" fill="#FBF8F2" stroke="#D8CFBE" stroke-width="1.3"></rect>
+      <g stroke="#8A8071" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="0" cy="-6" r="5"></circle>
+        <path d="M-9,12 C-9,3 9,3 9,12"></path>
+      </g>
+      <text x="0" y="40" text-anchor="middle" font-size="13" font-weight="600" fill="#6E655A">User queries</text>
+      <text x="0" y="57" text-anchor="middle" font-size="10" font-weight="600" letter-spacing="0.08em" fill="#A99F90">ongoing · tiny per person</text>
+    </g>
+
+    <!-- ===== IMPACT NODES ===== -->
+    <!-- Carbon emissions -->
+    <g transform="translate(1000,250)">
+      <rect x="-34" y="-34" width="68" height="68" rx="15" fill="#FBF8F2" stroke="#E2B7A4" stroke-width="1.6"></rect>
+      <g stroke="#BC4B26" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M-15,8 A8,8 0 0,1 -10,-7 A9,9 0 0,1 8,-8 A7,7 0 0,1 13,8 Z"></path>
+      </g>
+      <text x="0" y="5" text-anchor="middle" font-size="11" font-weight="700" fill="#BC4B26" font-family="'Hanken Grotesk',sans-serif">CO₂</text>
+      <text x="0" y="54" text-anchor="middle" font-size="14.5" font-weight="600" fill="#2A251E">Carbon emissions</text>
+      <text x="0" y="73" text-anchor="middle" font-size="10.5" font-weight="600" letter-spacing="0.14em" fill="#BC4B26">IMPACT</text>
+    </g>
+
+    <!-- Heat / warm water -->
+    <g transform="translate(1010,470)">
+      <rect x="-34" y="-34" width="68" height="68" rx="15" fill="#FBF8F2" stroke="#E2B7A4" stroke-width="1.6"></rect>
+      <g stroke="#BC4B26" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M-12,14 C-18,6 -6,2 -12,-14"></path>
+        <path d="M0,14 C-6,6 6,2 0,-14"></path>
+        <path d="M12,14 C6,6 18,2 12,-14"></path>
+      </g>
+      <text x="0" y="54" text-anchor="middle" font-size="14.5" font-weight="600" fill="#2A251E">Heat / warm water</text>
+      <text x="0" y="73" text-anchor="middle" font-size="10.5" font-weight="600" letter-spacing="0.14em" fill="#BC4B26">IMPACT · RETURNED</text>
+    </g>
+
+    <!-- E-waste -->
+    <g transform="translate(760,730)">
+      <rect x="-34" y="-34" width="68" height="68" rx="15" fill="#FBF8F2" stroke="#E2B7A4" stroke-width="1.6"></rect>
+      <g stroke="#BC4B26" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="-15" y1="-6" x2="15" y2="-6"></line>
+        <line x1="-5" y1="-6" x2="-5" y2="-11"></line>
+        <line x1="5" y1="-6" x2="5" y2="-11"></line>
+        <path d="M-12,-6 L-10,16 L10,16 L12,-6"></path>
+        <line x1="-4" y1="0" x2="-4" y2="10"></line>
+        <line x1="4" y1="0" x2="4" y2="10"></line>
+      </g>
+      <text x="0" y="54" text-anchor="middle" font-size="14.5" font-weight="600" fill="#2A251E">E-waste</text>
+      <text x="0" y="73" text-anchor="middle" font-size="10.5" font-weight="600" letter-spacing="0.12em" fill="#BC4B26">IMPACT · CYCLES OUT</text>
+    </g>
+  </svg>
+
+  <!-- ===== LEGEND ===== -->
+  <div style="margin:8px 60px 0; padding:24px 30px; background:#EFEADF; border:1px solid #E0D8C8; border-radius:8px; display:grid; grid-template-columns:1fr 1fr; gap:18px 48px; font-family:'Hanken Grotesk',sans-serif;">
+    <div style="grid-column:1 / -1; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#0B6E6E; font-weight:700;">How to read this</div>
+
+    <div style="display:flex; align-items:center; gap:16px;">
+      <svg width="62" height="14" style="flex:0 0 auto;"><line x1="2" y1="7" x2="48" y2="7" stroke="#3A342B" stroke-width="6" stroke-linecap="round"></line><path d="M48,2 L60,7 L48,12 Z" fill="#3A342B"></path></svg>
+      <span style="font-size:14px; color:#3A342B;"><strong style="font-weight:600;">Ongoing input</strong> — consumed every hour the system runs (power, water).</span>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:16px;">
+      <svg width="62" height="14" style="flex:0 0 auto;"><line x1="2" y1="7" x2="48" y2="7" stroke="#AEA493" stroke-width="2.5" stroke-dasharray="7 6" stroke-linecap="round"></line><path d="M48,2.5 L59,7 L48,11.5 Z" fill="#AEA493"></path></svg>
+      <span style="font-size:14px; color:#3A342B;"><strong style="font-weight:600;">One-time input</strong> — spent once to build the system (mining, fab, construction).</span>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:16px;">
+      <svg width="62" height="14" style="flex:0 0 auto;"><line x1="2" y1="7" x2="50" y2="7" stroke="#8A8071" stroke-width="1.6" stroke-linecap="round"></line><path d="M50,3.5 L58,7 L50,10.5 Z" fill="#8A8071"></path></svg>
+      <span style="font-size:14px; color:#3A342B;"><strong style="font-weight:600;">One person's queries</strong> — drawn thin on purpose: minor against the build-out.</span>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:16px;">
+      <svg width="62" height="14" style="flex:0 0 auto;"><line x1="2" y1="7" x2="48" y2="7" stroke="#BC4B26" stroke-width="4.5" stroke-linecap="round"></line><path d="M48,1.5 L61,7 L48,12.5 Z" fill="#BC4B26"></path></svg>
+      <span style="font-size:14px; color:#3A342B;"><strong style="font-weight:600;">Impact</strong> — sent back out into the environment (carbon, heat, e-waste).</span>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:16px; grid-column:1 / -1;">
+      <svg width="62" height="14" style="flex:0 0 auto;"><line x1="2" y1="7" x2="48" y2="7" stroke="#13499B" stroke-width="2.5" stroke-dasharray="2 7" stroke-linecap="round"></line><path d="M48,2.5 L59,7 L48,11.5 Z" fill="#13499B"></path></svg>
+      <span style="font-size:14px; color:#3A342B;"><strong style="font-weight:600;">Cycle</strong> — hardware ages out as e-waste and is replaced, so the build-out inputs repeat. The system loops; it does not end.</span>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1120,&quot;height&quot;:1060}}"></script>
+</body>
+</html>

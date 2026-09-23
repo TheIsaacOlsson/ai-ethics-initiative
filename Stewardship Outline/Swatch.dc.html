@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="display:flex; flex-direction:column; border-radius:10px; overflow:hidden; border:1px solid #DED7C9;">
+  <div style="height:80px; background:{{ hex }};"></div>
+  <div style="padding:12px 14px; background:#FFFFFF;">
+    <div style="font-family:'Hanken Grotesk',sans-serif; font-size:14px; font-weight:600; color:#2A251E;">{{ label }}</div>
+    <div style="font-family:'Hanken Grotesk',sans-serif; font-size:12px; color:#8A8071; margin-top:2px;">{{ sub }}</div>
+    <div style="font-family:'Hanken Grotesk',sans-serif; font-size:12px; color:#8A8071; margin-top:4px; letter-spacing:.03em;">{{ hex }}</div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;hex&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#F4F0E8&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;label&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Swatch&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;sub&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;}}"></script>
+</body>
+</html>

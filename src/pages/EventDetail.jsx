@@ -12,7 +12,7 @@ export default function EventDetail() {
         <div className="wrap">
           <p className="kicker">{ev.type}</p>
           <h1>{ev.title}</h1>
-          <p>{ev.host ? `Hosted by ${ev.host}` : ''}</p>
+          {ev.host && <p>{`Hosted by ${ev.host}`}</p>}
         </div>
       </header>
 
@@ -22,16 +22,25 @@ export default function EventDetail() {
             <Link className="back-link" to="/get-involved">
               <span className="arr">&larr;</span> All events
             </Link>
-            <h2 className="ev-detail__h">About this event</h2>
-            <div className="prose">
-              {(ev.desc || []).map((p) => (
-                <p key={p}>{p}</p>
-              ))}
-            </div>
-            <div className="ev-invite">
-              <h3>You&rsquo;re invited</h3>
-              <p>{ev.invite}</p>
-            </div>
+            {ev.desc && (
+              <>
+                <h2 className="ev-detail__h">About this event</h2>
+                <div className="prose">
+                  {ev.desc.map((p) => (
+                    <p key={p}>{p}</p>
+                  ))}
+                </div>
+              </>
+            )}
+            {ev.invite && (
+              <div className="ev-invite">
+                <h3>You&rsquo;re invited</h3>
+                <p>{ev.invite}</p>
+              </div>
+            )}
+            {!ev.desc && !ev.invite && (
+              <p className="prose">More details about this event are coming soon.</p>
+            )}
           </div>
 
           <aside>
@@ -45,18 +54,24 @@ export default function EventDetail() {
                   <span className="ev-facts__k">Date</span>
                   <span className="ev-facts__v">{longDate(ev.date)}</span>
                 </li>
-                <li className="ev-facts__row">
-                  <span className="ev-facts__k">Time</span>
-                  <span className="ev-facts__v">{ev.time}</span>
-                </li>
-                <li className="ev-facts__row">
-                  <span className="ev-facts__k">Location</span>
-                  <span className="ev-facts__v">{ev.place}</span>
-                </li>
-                <li className="ev-facts__row">
-                  <span className="ev-facts__k">Host</span>
-                  <span className="ev-facts__v">{ev.host || '—'}</span>
-                </li>
+                {ev.time && (
+                  <li className="ev-facts__row">
+                    <span className="ev-facts__k">Time</span>
+                    <span className="ev-facts__v">{ev.time}</span>
+                  </li>
+                )}
+                {ev.place && (
+                  <li className="ev-facts__row">
+                    <span className="ev-facts__k">Location</span>
+                    <span className="ev-facts__v">{ev.place}</span>
+                  </li>
+                )}
+                {ev.host && (
+                  <li className="ev-facts__row">
+                    <span className="ev-facts__k">Host</span>
+                    <span className="ev-facts__v">{ev.host}</span>
+                  </li>
+                )}
               </ul>
               <Link className="btn btn--accent" to="/news#newsletter">
                 Add to your calendar

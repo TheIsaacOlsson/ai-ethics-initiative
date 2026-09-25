@@ -2,13 +2,11 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { events, parseDate, DOW, MON_FULL } from '../data/events.js'
 
+// Filter chips come from the types actually present in the data, and are
+// hidden when there's only one type to choose between.
 const TYPES = [
   { label: 'All', value: 'all' },
-  { label: 'Clubs', value: 'Club' },
-  { label: 'Workshops', value: 'Workshop' },
-  { label: 'Panels', value: 'Panel' },
-  { label: 'Forums', value: 'Forum' },
-  { label: 'Lectures', value: 'Lecture' },
+  ...[...new Set(events.map((e) => e.type))].map((t) => ({ label: t, value: t })),
 ]
 
 // The full filterable, month-grouped events list — shared between the
@@ -33,6 +31,7 @@ export default function EventsCalendar() {
 
   return (
     <div>
+      {TYPES.length > 2 && (
       <div className="filter-chips" style={{ marginBottom: 28 }}>
         {TYPES.map((t) => (
           <button
@@ -45,6 +44,7 @@ export default function EventsCalendar() {
           </button>
         ))}
       </div>
+      )}
 
       {groups.map((g) => (
         <section className="ev-month" key={g.label}>
@@ -60,10 +60,9 @@ export default function EventsCalendar() {
                 <span className="ev-main">
                   <span className="ev-type">{e.type}</span>
                   <span className="ev-title">{e.title}</span>
-                  <span className="ev-info">
-                    {e.time} &middot; {e.place}
-                    {e.host ? ` · ${e.host}` : ''}
-                  </span>
+                  {[e.time, e.place, e.host].filter(Boolean).length > 0 && (
+                    <span className="ev-info">{[e.time, e.place, e.host].filter(Boolean).join(' · ')}</span>
+                  )}
                 </span>
                 <span className="ev-go" aria-hidden="true">
                   &rarr;

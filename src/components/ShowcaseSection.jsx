@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { SHOWCASE, SHARE_EMAIL } from '../data/showcase.js'
 import '../showcase.css'
 
@@ -231,9 +230,6 @@ export default function ShowcaseSection() {
             <span className={`sc-more__chev ${open ? 'is-open' : ''}`} aria-hidden="true">&#9662;</span>
           </button>
         )}
-        <Link className="sc-more sc-more--link" to="/professors">
-          Ideas for professors<span className="arrow">&rarr;</span>
-        </Link>
       </div>
       {more.length > 0 && open && (
         <div className="sc-grid sc-grid--more" id="sc-more-list">

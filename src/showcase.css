@@ -239,3 +239,8 @@
 .sc-shared-label { margin-top: 44px; }
 .sc-steps { margin: 0 0 10px; padding-left: 22px; display: grid; gap: 6px; }
 .sc-steps li::marker { color: var(--accent-ink); font-weight: 700; }
+
+/* Learn-page resource cards are external links, so they're anchors. */
+a.sc-card { color: inherit; text-decoration: none; }
+a.sc-card:hover { text-decoration: none; }
+.sc-card__by { font-size: 13.5px; font-weight: 600; color: var(--navy); margin: 0 0 10px; }

@@ -154,7 +154,7 @@ export default function Layout() {
               <h4 className="foot__h">Explore</h4>
               <ul>
                 <li>
-                  <Link to="/kickstart">Kickstart Course</Link>
+                  <Link to="/kickstart">Learn</Link>
                 </li>
                 <li>
                   <Link to="/principles">Principles of Ethical AI Use</Link>

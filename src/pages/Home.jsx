@@ -139,8 +139,8 @@ const PRACTICE_CIRCLES = [
   {
     key: 'learn',
     label: 'Learn',
-    title: 'AI Kickstart',
-    text: 'A hands-on introduction to using AI tools thoughtfully, built around the Principles.',
+    title: 'Coursework & Materials',
+    text: 'Courses, guides, and tools from professors and practitioners for using AI well.',
     href: '/kickstart',
   },
   {

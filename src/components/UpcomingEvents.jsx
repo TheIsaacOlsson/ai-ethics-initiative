@@ -17,9 +17,9 @@ export default function UpcomingEvents({ limit }) {
               </span>
               <span className="up-meta">
                 <span className="up-title">{e.title}</span>
-                <span className="up-sub">
-                  {e.time} &middot; {e.place}
-                </span>
+                {(e.time || e.place) && (
+                  <span className="up-sub">{[e.time, e.place].filter(Boolean).join(' · ')}</span>
+                )}
               </span>
             </Link>
           </li>

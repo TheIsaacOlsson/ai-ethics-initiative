@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Carousel from '../components/Carousel.jsx'
 import EventsCalendar from '../components/EventsCalendar.jsx'
+import EventSuggestForm from '../components/EventSuggestForm.jsx'
 import '../get-involved.css'
 
 export default function GetInvolved() {
@@ -28,6 +29,7 @@ export default function GetInvolved() {
               </div>
             </div>
             <EventsCalendar />
+            <EventSuggestForm />
           </div>
         </section>
 

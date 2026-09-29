@@ -6,7 +6,15 @@ import '../showcase.css'
 export default function Kickstart() {
   return (
     <>
-      <section className="ks-hero">
+      {/* Painting hero, echoing the Lackawanna Valley opening on Principles:
+          the painting fills the band, the title sits over a dark fade at the
+          bottom, and the credit line hugs the bottom-left corner. */}
+      <section className="ks-hero ks-hero--painting">
+        <img
+          className="ks-hero__painting"
+          src={`${import.meta.env.BASE_URL}images/country-school-homer.jpg`}
+          alt="Winslow Homer, The Country School, a painting of a teacher reading in a sunlit one-room schoolhouse while children study on benches"
+        />
         <div className="wrap">
           <h1>Learn</h1>
           <p className="lead">
@@ -14,6 +22,7 @@ export default function Kickstart() {
             collected in one place.
           </p>
         </div>
+        <p className="ks-hero__caption">Winslow Homer, The Country School, 1871</p>
       </section>
 
       <section className="section" data-screen-label="Coursework">

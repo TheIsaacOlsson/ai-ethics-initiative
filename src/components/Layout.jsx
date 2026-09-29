@@ -90,7 +90,7 @@ export default function Layout() {
       // pinned fade — see Home.jsx/homepage.css), so it's watched via that
       // class rather than unconditionally like the sections after it.
       const darkEls = document.querySelectorAll(
-        '.phead:not(.phead--paper), .home-open, .cinema-finale-dark-zone, .mission, .pivot--in, .principles-framework, .practice, .reflect',
+        '.phead:not(.phead--paper), .ks-hero--painting, .home-open, .cinema-finale-dark-zone, .mission, .pivot--in, .principles-framework, .practice, .reflect',
       )
       const isDark = Array.from(darkEls).some((el) => {
         const r = el.getBoundingClientRect()

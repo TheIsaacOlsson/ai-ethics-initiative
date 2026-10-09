@@ -141,6 +141,7 @@ export default function Home() {
             </div>
           </div>
         </div>
+        <p className="mission__caption">George Inness, Peace and Plenty, 1865</p>
       </section>
 
       {/* FEATURED */}
@@ -148,19 +149,18 @@ export default function Home() {
         <div className="wrap">
           <div className="feature-split" data-reveal>
             <div className="ph ph--navy">
-              <span>cover · ai constitution</span>
+              <span>cover · ai constitution competition</span>
             </div>
             <div className="feature-split__body">
               <p className="kicker">Featured</p>
-              <h2>Your Personal AI Constitution</h2>
+              <h2>AI Constitution Competition</h2>
               <p className="lead">
-                A simple framework for self-governing your AI use. Ground your decisions in ethical
-                principles with your favorite model.
+                Using the principles in our AI Stewardship handbook, write your own rules for using
+                generative AI, then submit your constitution and a short video explaining it.
               </p>
-              {/* Not linked yet on purpose — destination to be decided. */}
-              <a className="link-more" href="#">
-                Write your constitution<span className="arrow">&rarr;</span>
-              </a>
+              <Link className="link-more" to="/ai-constitution-competition">
+                Enter the competition<span className="arrow">&rarr;</span>
+              </Link>
             </div>
           </div>
         </div>

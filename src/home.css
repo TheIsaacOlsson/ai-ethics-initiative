@@ -32,11 +32,12 @@
   .symbar--4 .symbar__grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Mission band: the "stewardship" emphasis in a light tint of BYU Royal
-   rather than plain italic, so it reads as the key word on navy. */
+/* Mission band: the "stewardship" emphasis in a warm cream drawn from the
+   Inness painting behind it (the old light-blue tint was built for navy and
+   loses contrast against the painting's sky). */
 .mission__statement em {
   font-style: italic;
-  color: #9DB9E8;
+  color: #F6DFA8;
 }
 
 /* Latest news sits in a light band so it separates from the white sections

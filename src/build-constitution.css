@@ -1,0 +1,251 @@
+/* Build Your Constitution page. Reuses showcase.css (.sc-form) and
+   logo-competition.css (.lc-submit, .lc-drop, .lc-pending) for the
+   submission form; only page-specific pieces live here. The parchment
+   tones and serif italics give it a founding-document feel while staying
+   inside the site's navy/royal palette. */
+
+.bc {
+  --parchment: #FBF5E8;
+  --parchment-2: #F3E8CC;
+  --sepia: #5B4A33;
+  --sepia-soft: #8A7656;
+}
+
+/* ---- Hero: fills the first screen. The School of Athens sits faded
+   behind the text, the two calls to action come next, and the What /
+   Why / How cards are pinned to the bottom edge. ---- */
+.bc-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  background: var(--parchment);
+  border-bottom: 1px solid var(--parchment-2);
+}
+.bc-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-size: cover;
+  background-position: 50% 42%;
+  opacity: 0.22;
+  filter: sepia(0.35) saturate(0.8);
+}
+/* Parchment wash, strongest behind the text, so the copy stays easy to read. */
+.bc-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(ellipse 60% 55% at 50% 40%, rgba(251, 245, 232, 0.75), rgba(251, 245, 232, 0.15) 70%, rgba(251, 245, 232, 0) 100%);
+}
+.bc-hero__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: calc(79px + clamp(24px, 4vw, 56px));
+  padding-bottom: clamp(24px, 3vw, 40px);
+}
+.bc-hero__text { max-width: 760px; }
+.bc-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 62px);
+  line-height: 1.05;
+  color: var(--navy);
+  margin: 12px 0 0;
+}
+.bc-preamble {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(18px, 2vw, 22px);
+  color: var(--sepia);
+  margin: 22px auto 0;
+  max-width: 50ch;
+}
+.bc-hero__lede { margin: 16px auto 0; color: var(--ink); font-size: 18px; max-width: 48ch; }
+
+.bc-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: clamp(28px, 4vw, 44px);
+}
+.bc-hero__actions .btn {
+  font-size: 18px;
+  padding: 18px 34px;
+  min-width: 250px;
+  justify-content: center;
+}
+.bc-hero__actions .btn--ghost { background: rgba(255, 255, 255, 0.85); border-color: var(--navy); }
+.bc-hero__actions .btn--ghost:hover { background: #fff; }
+
+/* What / Why / How */
+.bc-wwh {
+  list-style: none;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.bc-wwh li {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--parchment-2);
+  border-top: 3px solid var(--navy);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+.bc-wwh h2 {
+  font-size: 22px;
+  margin: 0 0 6px;
+}
+.bc-wwh p { margin: 0; font-size: 15.5px; line-height: 1.5; color: var(--ink); }
+
+.bc-hero__credit {
+  margin: 10px auto 0;
+  padding-bottom: clamp(16px, 2vw, 24px);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--sepia-soft);
+  text-align: right;
+}
+
+/* Shorter laptop screens: tighten the hero so the cards still land on
+   the first screen. */
+@media (min-width: 861px) and (max-height: 820px) {
+  .bc-hero__main { padding-top: calc(79px + 16px); padding-bottom: 18px; }
+  .bc-hero h1 { font-size: clamp(32px, 3.8vw, 48px); }
+  .bc-preamble { font-size: 18px; margin-top: 14px; }
+  .bc-hero__lede { margin-top: 10px; font-size: 16.5px; }
+  .bc-hero__actions { margin-top: 22px; }
+  .bc-hero__actions .btn { padding: 15px 30px; font-size: 17px; }
+  .bc-wwh { gap: 12px; }
+  .bc-wwh li { padding: 12px 16px; }
+  .bc-wwh h2 { font-size: 19px; margin-bottom: 2px; }
+  .bc-wwh p { font-size: 14.5px; }
+}
+
+@media (max-width: 860px) {
+  .bc-hero { min-height: 0; }
+  .bc-wwh { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .bc-hero__actions { flex-direction: column; align-self: stretch; }
+  .bc-hero__actions .btn { min-width: 0; }
+}
+
+/* ---- Shared section heads ---- */
+.bc h2 { font-family: var(--font-display); color: var(--navy); }
+.bc-section-head { max-width: 720px; margin-bottom: 32px; }
+.bc-section-head h2 { font-size: clamp(28px, 4vw, 40px); margin: 10px 0 0; }
+.bc-section-head > p:not(.kicker) { color: var(--muted); margin: 14px 0 0; }
+.bc-section-head .lc-pending { color: var(--navy); }
+
+/* ---- Introduction ---- */
+.bc-intro__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(24px, 5vw, 64px);
+}
+.bc-intro h2 { font-size: clamp(28px, 4vw, 40px); margin: 10px 0 0; }
+.bc-intro__body > p { margin: 0 0 16px; max-width: 62ch; }
+@media (max-width: 860px) { .bc-intro__grid { grid-template-columns: 1fr; } }
+
+.bc-deliverables { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+@media (max-width: 640px) { .bc-deliverables { grid-template-columns: 1fr; } }
+.bc-deliverable {
+  display: flex;
+  gap: 14px;
+  padding: 18px;
+  background: var(--parchment);
+  border: 1px solid var(--parchment-2);
+  border-radius: var(--radius);
+}
+.bc-deliverable__num {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--navy);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+.bc-deliverable h3 { font-size: 18px; margin: 4px 0 4px; color: var(--navy); }
+.bc-deliverable p { margin: 0; font-size: 15px; color: var(--muted); }
+.bc-tip { font-size: 15px; color: var(--muted); }
+
+/* ---- Articles ---- */
+.bc-articles { background: var(--parchment); }
+.bc-article-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+}
+@media (max-width: 1100px) { .bc-article-list { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); } }
+.bc-article {
+  background: #fff;
+  border: 1px solid var(--parchment-2);
+  border-top: 3px solid var(--navy);
+  border-radius: var(--radius);
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+}
+.bc-article__num {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--sepia);
+  font-size: 15px;
+}
+.bc-article h3 { font-family: var(--font-display); font-size: 26px; color: var(--navy); margin: 2px 0 10px; }
+.bc-article__pause { font-family: var(--font-display); font-style: italic; color: var(--sepia); margin: 0 0 10px; }
+.bc-article__def { font-size: 15px; margin: 0 0 14px; }
+.bc-article__ask {
+  margin: auto 0 0;
+  padding-top: 12px;
+  border-top: 1px dashed var(--parchment-2);
+  font-size: 14.5px;
+  color: var(--muted);
+}
+.bc-article__ask span { display: block; font-weight: 600; color: var(--navy); margin-bottom: 2px; }
+
+/* ---- Rubric ---- */
+.bc-table-wrap { overflow-x: auto; }
+.bc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15.5px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+.bc-table th,
+.bc-table td { text-align: left; vertical-align: top; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+.bc-table thead th {
+  background: var(--navy);
+  color: #fff;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.bc-table tbody th { color: var(--navy); font-weight: 600; white-space: nowrap; }
+.bc-table tbody tr:nth-child(even) { background: var(--parchment); }
+.bc-table__pts { width: 90px; text-align: center !important; }
+@media (max-width: 640px) { .bc-table tbody th { white-space: normal; } }
+
+/* ---- Form bits ---- */
+.bc-optional { font-weight: 400; color: var(--muted); }
+.bc-closed { font-size: 14px; color: var(--muted); }
+.bc .lc-submit .lc-file + .lc-file { margin-top: 4px; }

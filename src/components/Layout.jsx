@@ -4,13 +4,15 @@ import ScrollLogo from './ScrollLogo.jsx'
 import useRevealOnScroll from '../hooks/useRevealOnScroll.js'
 import '../reveal.css'
 
-// Principles comes right after Home — it's the intellectual center of the
+// Build your constitution sits right after Home as the current call to
+// action; Principles follows — it's the intellectual center of the
 // initiative, not one option among equals. Kickstart keeps its existing
 // route but surfaces under the "Learn" label so it doesn't read as the
 // primary product; "Calendar" is relabeled "Events" to match the homepage's
 // language for the same page.
 const NAV = [
   { to: '/', label: 'Home' },
+  { to: '/constitution', label: 'Build your constitution' },
   { to: '/principles', label: 'Principles' },
   { to: '/kickstart', label: 'Learn' },
   { to: '/get-involved', label: 'Events' },
@@ -155,6 +157,9 @@ export default function Layout() {
               <ul>
                 <li>
                   <Link to="/kickstart">Learn</Link>
+                </li>
+                <li>
+                  <Link to="/constitution">Build your constitution</Link>
                 </li>
                 <li>
                   <Link to="/principles">Principles of Ethical AI Use</Link>

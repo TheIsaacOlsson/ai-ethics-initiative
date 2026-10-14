@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout.jsx'
 import Home from './pages/Home.jsx'
 import Principles from './pages/Principles.jsx'
+import BuildConstitution from './pages/BuildConstitution.jsx'
 import GetInvolved from './pages/GetInvolved.jsx'
 import EventDetail from './pages/EventDetail.jsx'
 import News from './pages/News.jsx'
@@ -39,6 +40,7 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="constitution" element={<BuildConstitution />} />
           <Route path="principles" element={<Principles />} />
           <Route path="get-involved" element={<GetInvolved />} />
           <Route path="events/:slug" element={<EventDetail />} />

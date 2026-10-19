@@ -4,13 +4,15 @@ import ScrollLogo from './ScrollLogo.jsx'
 import useRevealOnScroll from '../hooks/useRevealOnScroll.js'
 import '../reveal.css'
 
-// Principles comes right after Home — it's the intellectual center of the
+// Build your constitution sits right after Home as the current call to
+// action; Principles follows — it's the intellectual center of the
 // initiative, not one option among equals. Kickstart keeps its existing
 // route but surfaces under the "Learn" label so it doesn't read as the
 // primary product; "Calendar" is relabeled "Events" to match the homepage's
 // language for the same page.
 const NAV = [
   { to: '/', label: 'Home' },
+  { to: '/constitution', label: 'Build your constitution' },
   { to: '/principles', label: 'Principles' },
   { to: '/kickstart', label: 'Learn' },
   { to: '/get-involved', label: 'Events' },
@@ -169,7 +171,7 @@ export default function Layout() {
       // pinned fade — see Home.jsx/homepage.css), so it's watched via that
       // class rather than unconditionally like the sections after it.
       const darkEls = document.querySelectorAll(
-        '.phead:not(.phead--paper), .newsletter, .home-open, .cinema-finale-dark-zone, .mission, .pivot--in, .principles-framework, .practice, .reflect',
+        '.phead:not(.phead--paper), .ks-hero--painting, .newsletter, .home-open, .cinema-finale-dark-zone, .mission, .pivot--in, .principles-framework, .practice, .reflect',
       )
       const isDark = Array.from(darkEls).some((el) => {
         const r = el.getBoundingClientRect()
@@ -220,6 +222,76 @@ export default function Layout() {
       </main>
 
       {!onPrinciples && <SiteFooter />}
+      <footer className="foot">
+        <div className="wrap">
+          <div className="foot__cols">
+            <div className="foot__contact">
+              <h4 className="foot__h">Contact</h4>
+              <p>
+                Email: <a href="mailto:ai-ethics@byu.edu">ai-ethics@byu.edu</a>
+              </p>
+              <p>Office hours: Mon&ndash;Fri, 8&ndash;5</p>
+            </div>
+            <div>
+              <h4 className="foot__h">Explore</h4>
+              <ul>
+                <li>
+                  <Link to="/kickstart">Learn</Link>
+                </li>
+                <li>
+                  <Link to="/constitution">Build your constitution</Link>
+                </li>
+                <li>
+                  <Link to="/principles">Principles of Ethical AI Use</Link>
+                </li>
+                <li>
+                  <Link to="/get-involved">Events Calendar</Link>
+                </li>
+                <li>
+                  <Link to="/news">News &amp; Newsletter</Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="foot__h">Resources</h4>
+              <ul>
+                <li>
+                  <a href="mailto:ai-ethics@byu.edu">Request a Workshop</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="foot__h">Connect</h4>
+              <div className="foot__social">
+                <Link to="/news#newsletter" aria-label="Newsletter">
+                  <MailIcon />
+                </Link>
+                <Link to="/news" aria-label="News">
+                  <NewsIcon />
+                </Link>
+                <Link to="/get-involved" aria-label="Recordings">
+                  <PlayIcon />
+                </Link>
+              </div>
+              <ul>
+                <li>
+                  <Link to="/news#newsletter">Join the mailing list</Link>
+                </li>
+                <li>
+                  <Link to="/get-involved">Upcoming events</Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className="foot__band">
+          <div className="foot__wordmark">BYU Marriott AI &amp; Ethics Initiative</div>
+          <p className="foot__fine">
+            &copy; {new Date().getFullYear()} AI Ethics Initiative &nbsp;|&nbsp; <a href="#">Privacy Notice</a>{' '}
+            &nbsp;&middot;&nbsp; <a href="#">Accessibility</a>
+          </p>
+        </div>
+      </footer>
     </div>
   )
 }

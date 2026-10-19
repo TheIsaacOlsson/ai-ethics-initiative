@@ -382,7 +382,7 @@ a.card:not(:has(.link-more)):hover .card__title { text-decoration: underline; te
 .phead h1 { font-size: clamp(38px, 6vw, 66px); margin: 14px 0 0; color: #fff; }
 .phead p { color: rgba(255,255,255,0.82); font-size: clamp(17px, 2vw, 20px); max-width: 60ch; margin: 20px 0 0; }
 .phead--paper { background: linear-gradient(160deg, var(--accent-wash), var(--paper) 72%); color: var(--ink); border-bottom: 1px solid var(--line); }
-.phead--paper .kicker { color: var(--accent-ink); }
+.phead--paper .kicker { color: var(--accent-ink); font-size: 12.5px; max-width: none; margin: 0; }
 .phead--paper h1 { color: var(--ink); font-size: 34px; }
 .phead--paper p { color: var(--muted); }
 
